@@ -14,7 +14,7 @@ BELLY_MAX_SIZE_PREFS 10
 
 ## Multiplier for the points earned on a sex table ##
 ## Setting it to 0 obviously just makes it generate no points at all. ##
-#SEX_TABLE_MULTIPLIER 50
+SEX_TABLE_MULTIPLIER 100
 
 ## Enable old size penalty system ##
 ## If uncommented, it'll use citadel's original size penalties for mob sizes rather than the new calculated ones. ##
@@ -23,4 +23,4 @@ BELLY_MAX_SIZE_PREFS 10
 
 ## Macro health size cap ##
 ## Macros no longer get more health after their size reaches this value ##
-#MACRO_HEALTH_CAP 3.5
+MACRO_HEALTH_CAP 3.5

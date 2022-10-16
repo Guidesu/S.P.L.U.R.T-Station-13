@@ -6,13 +6,13 @@
 BUFFER_MAX 25
 
 ## Seconds until out of combat regen kicks in
-# OUT_OF_COMBAT_TIMER 15
+OUT_OF_COMBAT_TIMER 15
 
 ## Base regen per second
 BASE_REGENERATION 3.5
 
 ## Regenerate this % of total buffer when out of combat
-# PERCENT_REGENERATION_OUT_OF_COMBAT
+PERCENT_REGENERATION_OUT_OF_COMBAT 1.5
 
 ## Seconds after an action for which regeneration is penalized
 POST_ACTION_PENALTY_DELAY 5

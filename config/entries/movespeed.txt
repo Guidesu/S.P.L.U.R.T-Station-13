@@ -8,46 +8,46 @@
 ## To speed things up make the number negative, to slow things down, make the number positive.
 
 ## These modify the run/walk speed of all mobs before the mob-specific modifiers are applied.
-RUN_DELAY 1.5
-WALK_DELAY 4
+RUN_DELAY 2.10
+WALK_DELAY 7.15
 
 ## The variables below affect the movement of specific mob types. THIS AFFECTS ALL SUBTYPES OF THE TYPE YOU CHOOSE!
 ## Entries completely override all subtypes. Later entries have precedence over earlier entries.
 ## This means if you put /mob 0 on the last entry, it will null out all changes, while if you put /mob as the first entry and
 ## /mob/living/carbon/human on the last entry, the last entry will override the first.
-MULTIPLICATIVE_MOVESPEED /mob/living/carbon/alien -1
+MULTIPLICATIVE_MOVESPEED /mob/living/carbon/alien -0.5
 MULTIPLICATIVE_MOVESPEED /mob/living/carbon/alien/humanoid/sentinel -0.75
 MULTIPLICATIVE_MOVESPEED /mob/living/carbon/alien/humanoid/drone -0.5
-MULTIPLICATIVE_MOVESPEED /mob/living/carbon/alien/humanoid/royal/praetorian 0
-MULTIPLICATIVE_MOVESPEED /mob/living/carbon/alien/humanoid/royal/queen 2
+MULTIPLICATIVE_MOVESPEED /mob/living/carbon/alien/humanoid/royal/praetorian 2
+MULTIPLICATIVE_MOVESPEED /mob/living/carbon/alien/humanoid/royal/queen 4
 
 ## The above, only when a mob is FLOATING
-MULTIPLICATIVE_MOVESPEED_FLOATING /mob/living/carbon -0.5
+MULTIPLICATIVE_MOVESPEED_FLOATING /mob/living/carbon -0.3
 MULTIPLICATIVE_MOVESPEED_FLOATING /mob/living 0
 
 ## Whether or not sprint is enabled
-SPRINT_ENABLED 1
+SPRINT_ENABLED 1.2
 
 ## When sprint is off, how much does getting staggered slow you
-SPRINTLESS_STAGGER_SLOWDOWN 0.5
+SPRINTLESS_STAGGER_SLOWDOWN 3
 
 ## When sprint is off, how much does getting shoved off balance slow you
-SPRINTLESS_OFF_BALANCE_SLOWDOWN 0.85
+SPRINTLESS_OFF_BALANCE_SLOWDOWN 3.85
 
 ## Melee stagger power multiplier
-MELEE_STAGGER_FACTOR 1
+MELEE_STAGGER_FACTOR 2
 
 ## Sprint speed increase
-SPRINT_SPEED_INCREASE 1
+SPRINT_SPEED_INCREASE 1.3
 
 ## Max tiles/second increase from sprint
-SPRINT_MAX_TILES_INCREASE 5
+SPRINT_MAX_TILES_INCREASE 4
 
 ## Absolute max speed sprint can make someone go (tiles/second)
 SPRINT_ABSOLUTE_MAX_TILES 13
 
 ## Max sprint buffer
-SPRINT_BUFFER_MAX 24
+SPRINT_BUFFER_MAX 35
 
 ## Stamina/tile when bufer empty
 SPRINT_STAMINA_COST 1.4
