@@ -1,7 +1,7 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "aaa" = (
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "aab" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -1408,7 +1408,7 @@
 	dir = 4
 	},
 /turf/open/floor/engine,
-/area/space)
+/area/space/nearstation)
 "acY" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -1584,7 +1584,7 @@
 /turf/open/floor/circuit/green{
 	luminosity = 2
 	},
-/area/space)
+/area/space/nearstation)
 "adr" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 4
@@ -3283,7 +3283,7 @@
 "agy" = (
 /obj/structure/fans/tiny/invisible,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "agz" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -3382,7 +3382,7 @@
 	},
 /obj/structure/fans/tiny/invisible,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "agH" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/command{
@@ -17648,7 +17648,7 @@
 	width = 23
 	},
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "aFH" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
@@ -18951,7 +18951,7 @@
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "aHX" = (
 /obj/structure/girder,
 /turf/open/floor/plating{
@@ -35137,7 +35137,7 @@
 /area/cargo/office)
 "bhA" = (
 /turf/open/floor/plating/asteroid/snow/ice/icemoon,
-/area/space)
+/area/space/nearstation)
 "bhB" = (
 /obj/structure/table,
 /obj/effect/turf_decal/tile/neutral,
@@ -37506,7 +37506,7 @@
 	width = 7
 	},
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "blv" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -40960,7 +40960,7 @@
 /area/service/theater)
 "brf" = (
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "brg" = (
 /obj/machinery/door/airlock/maintenance{
 	req_access_txt = "12"
@@ -53128,7 +53128,7 @@
 "bLN" = (
 /obj/effect/landmark/carpspawn,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "bLO" = (
 /obj/structure/chair,
 /obj/effect/turf_decal/tile/neutral,
@@ -54492,7 +54492,7 @@
 	width = 9
 	},
 /turf/open/space,
-/area/space)
+/area/space/nearstation)
 "bOv" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/mining/glass{
@@ -68024,7 +68024,7 @@
 "cmJ" = (
 /obj/structure/lattice,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "cmK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 6
@@ -70576,7 +70576,7 @@
 	},
 /obj/structure/fans/tiny/invisible,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "cry" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/light/small{
@@ -72596,7 +72596,7 @@
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "cvC" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -73959,7 +73959,7 @@
 "czp" = (
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "czt" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 5
@@ -77113,7 +77113,7 @@
 	},
 /obj/structure/fans/tiny/invisible,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "cLe" = (
 /obj/effect/decal/cleanable/cobweb/cobweb2,
 /obj/effect/decal/cleanable/dirt,
@@ -77269,7 +77269,7 @@
 	},
 /obj/structure/fans/tiny/invisible,
 /turf/open/floor/plating/asteroid/snow/icemoon,
-/area/space)
+/area/space/nearstation)
 "cLU" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -79525,7 +79525,7 @@
 	icon_state = "2-8"
 	},
 /turf/open/floor/engine,
-/area/space)
+/area/space/nearstation)
 "ssJ" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -79694,7 +79694,7 @@
 /area/commons/vacant_room/office)
 "uMb" = (
 /turf/open/floor/plating/asteroid/snow/temperatre,
-/area/space)
+/area/space/nearstation)
 "uOT" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
