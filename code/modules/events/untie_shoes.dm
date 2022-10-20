@@ -1,8 +1,8 @@
 /datum/round_event_control/untied_shoes
 	name = "Untied Shoes"
 	typepath = /datum/round_event/untied_shoes
-	weight = 50
-	max_occurrences = 10
+	weight = 10
+	max_occurrences = 2
 	alert_observers = FALSE
 
 /datum/round_event/untied_shoes

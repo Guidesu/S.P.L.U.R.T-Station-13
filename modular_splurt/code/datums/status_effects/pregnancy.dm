@@ -10,7 +10,7 @@
 
 /datum/status_effect/pregnancy
 	id = "pregnancy"
-	duration = -1
+	duration = 20 MINUTES
 	tick = FALSE
 	alert_type = /atom/movable/screen/alert/status_effect/pregnancy
 

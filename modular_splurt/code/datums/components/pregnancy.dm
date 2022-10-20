@@ -291,7 +291,7 @@
 		return
 	if(prob(10))
 		if(prob(50))
-			to_chat(carrier, span_warning("Something presses hard against your anus! It's probably your egg!"))
+			to_chat(carrier, span_warning("Something presses hard against your walls! It's probably your egg!"))
 		else
 			to_chat(carrier, span_warning("You REALLY need to get this egg out!"))
 		carrier.emote("scream")
@@ -332,9 +332,8 @@
 		senders_cum.reaction(location, TOUCH, 1, 0)
 
 	playsound(carrier, 'sound/effects/splat.ogg', 70, TRUE)
-	carrier.Knockdown(200, TRUE, TRUE)
-	carrier.Stun(200, TRUE, TRUE)
-	carrier.adjustStaminaLoss(200)
+	carrier.Stun(10, TRUE, TRUE)
+	carrier.adjustStaminaLoss(20)
 	SEND_SIGNAL(carrier, COMSIG_ADD_MOOD_EVENT, "pregnancy_end", /datum/mood_event/pregnant_positive)
 
 	oviposition = FALSE
