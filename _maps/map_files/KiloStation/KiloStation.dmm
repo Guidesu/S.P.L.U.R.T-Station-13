@@ -790,14 +790,6 @@
 	},
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/ai)
-"abT" = (
-/obj/machinery/light/small{
-	dir = 1
-	},
-/obj/machinery/door/airlock/wood,
-/turf/open/space/basic,
-/turf/open/floor/wood,
-/area/commons/locker)
 "abV" = (
 /obj/structure/cable{
 	icon_state = "0-8"
@@ -7359,9 +7351,8 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
 "aoL" = (
-/obj/machinery/door/airlock/wood,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/turf/open/floor/plasteel/dark,
+/turf/closed/wall,
 /area/commons/locker)
 "aoM" = (
 /obj/machinery/door/airlock/maintenance/external{
@@ -19376,11 +19367,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/medical/medbay/central)
-"aJv" = (
-/obj/structure/table/wood/fancy/black,
-/obj/item/modular_computer/laptop/preset,
-/turf/open/floor/wood,
-/area/commons/locker)
 "aJw" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
@@ -28003,11 +27989,6 @@
 "aWR" = (
 /turf/closed/wall,
 /area/science/xenobiology)
-"aWS" = (
-/obj/structure/bed/double,
-/obj/item/bedsheet/cult/double,
-/turf/open/floor/wood,
-/area/commons/locker)
 "aWT" = (
 /obj/structure/closet/secure_closet/chemical,
 /obj/structure/window/reinforced{
@@ -28415,17 +28396,6 @@
 	},
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/ai_upload)
-"aXE" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "Cabin_4Privacy";
-	name = "Cabin 4 Privacy Shutter"
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/turf/open/floor/plating,
-/area/commons/locker)
 "aXF" = (
 /obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/tile/neutral{
@@ -29124,17 +29094,6 @@
 	},
 /turf/open/floor/plasteel/grimy,
 /area/service/bar)
-"aYR" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "Cabin_3Privacy";
-	name = "Cabin 3 Privacy Shutter"
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/turf/open/floor/plating,
-/area/commons/locker)
 "aYS" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -35780,16 +35739,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/cargo/office)
-"bji" = (
-/obj/machinery/light/small{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8
-	},
-/obj/structure/closet/secure_closet/personal/cabinet,
-/turf/open/floor/wood,
-/area/commons/locker)
 "bjj" = (
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
@@ -45226,12 +45175,11 @@
 /area/ai_monitored/turret_protected/ai_upload)
 "bzl" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/mining/glass{
-	name = "Cargo Office";
-	req_one_access_txt = "31;48"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/door/airlock/public/glass{
+	name = "Arrivals Dock"
+	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/exit/departure_lounge)
 "bzm" = (
@@ -51305,15 +51253,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/checkpoint/engineering)
-"bJQ" = (
-/obj/structure/table/wood,
-/obj/machinery/airalarm{
-	dir = 4;
-	pixel_x = -23
-	},
-/obj/machinery/computer/security/wooden_tv,
-/turf/open/floor/wood,
-/area/commons/locker)
 "bJR" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
@@ -51337,12 +51276,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel,
 /area/hallway/primary/starboard)
-"bJU" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 5
-	},
-/turf/open/floor/wood,
-/area/commons/locker)
 "bJV" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/mining/glass{
@@ -51375,17 +51308,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
-"bJY" = (
-/obj/structure/table/wood,
-/obj/item/modular_computer/tablet/syndicate_contract_uplink/preset/uplink,
-/turf/open/floor/wood,
-/area/commons/locker)
-"bJZ" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
-	dir = 1
-	},
-/turf/open/floor/wood,
-/area/commons/locker)
 "bKa" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -51407,15 +51329,6 @@
 "bKd" = (
 /turf/open/floor/plating,
 /area/maintenance/central)
-"bKh" = (
-/obj/structure/table/wood,
-/obj/item/radio{
-	desc = "An old handheld radio. You could use it, if you really wanted to.";
-	icon_state = "radio";
-	name = "old radio"
-	},
-/turf/open/floor/wood,
-/area/commons/locker)
 "bKi" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -51432,22 +51345,6 @@
 /area/security/courtroom)
 "bKj" = (
 /turf/open/floor/plasteel/showroomfloor,
-/area/commons/locker)
-"bKk" = (
-/obj/machinery/newscaster{
-	pixel_x = -30
-	},
-/obj/machinery/button/door{
-	id = "Cabin_4Privacy";
-	name = "Cabin 4 Privacy Toggle";
-	pixel_x = -24;
-	pixel_y = -24
-	},
-/obj/structure/chair/comfy/brown{
-	color = "#596479";
-	dir = 4
-	},
-/turf/open/floor/wood,
 /area/commons/locker)
 "bKl" = (
 /obj/structure/flora/rock/pile,
@@ -52209,10 +52106,6 @@
 /obj/structure/disposalpipe/junction/flip,
 /turf/open/floor/plasteel,
 /area/hallway/primary/starboard)
-"bLu" = (
-/obj/structure/dresser,
-/turf/open/floor/wood,
-/area/commons/locker)
 "bLv" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
@@ -52609,14 +52502,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
-"bMp" = (
-/obj/structure/bonfire/prelit,
-/obj/structure/displaycase{
-	name = "safety case";
-	desc = "A safety case for containing the fire."
-	},
-/turf/open/floor/wood,
-/area/commons/locker)
 "bMq" = (
 /obj/structure/table,
 /obj/machinery/cell_charger,
@@ -56758,18 +56643,12 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/exit/departure_lounge)
 "bTZ" = (
 /obj/machinery/status_display/evac,
 /turf/closed/wall,
 /area/hallway/secondary/entry)
-"bUa" = (
-/turf/open/floor/wood,
-/area/commons/locker)
 "bUc" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -57986,10 +57865,6 @@
 	icon_state = "platingdmg3"
 	},
 /area/maintenance/aft)
-"bWM" = (
-/obj/structure/sign/departments/cargo,
-/turf/closed/wall/rust,
-/area/hallway/secondary/exit/departure_lounge)
 "bWO" = (
 /obj/machinery/status_display/ai,
 /turf/closed/wall,
@@ -58200,8 +58075,11 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/structure/closet/crate,
 /obj/machinery/light,
+/obj/item/hilbertshotel/ghostdojo{
+	name = "Bluespace Hangar";
+	desc = "A small object that links itself towards the near starship that has be reconized by the local ATM."
+	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/exit/departure_lounge)
 "bXg" = (
@@ -59600,11 +59478,10 @@
 /area/hallway/primary/starboard)
 "bZC" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/mining/glass{
-	name = "Cargo Office";
-	req_one_access_txt = "31;48"
+/obj/machinery/door/airlock/public/glass{
+	name = "Arrivals Dock"
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/space/basic,
 /area/hallway/secondary/exit/departure_lounge)
 "bZD" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
@@ -73693,37 +73570,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
-"cBW" = (
-/obj/machinery/button/door{
-	id = "Cabin_3Privacy";
-	name = "Cabin 3 Privacy Toggle";
-	pixel_x = -24;
-	pixel_y = -24
-	},
-/obj/structure/bed/badhaybed,
-/obj/structure/bed/dogbed,
-/obj/item/oviposition_egg{
-	dye_color = green;
-	color = green;
-	pixel_y = 5
-	},
-/obj/item/oviposition_egg{
-	dye_color = green;
-	color = green;
-	pixel_x = 5
-	},
-/obj/item/oviposition_egg{
-	dye_color = green;
-	color = green;
-	pixel_y = -1
-	},
-/obj/item/oviposition_egg{
-	dye_color = green;
-	color = green;
-	pixel_x = -5
-	},
-/turf/open/floor/wood,
-/area/commons/locker)
 "cBX" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/preopen{
@@ -78454,10 +78300,6 @@
 	},
 /turf/open/floor/carpet,
 /area/maintenance/aft)
-"pVn" = (
-/obj/item/hilbertshotel/ghostdojo,
-/turf/open/floor/plasteel,
-/area/hallway/secondary/exit/departure_lounge)
 "qdz" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -95822,10 +95664,10 @@ akv
 bzZ
 bKL
 bIV
-bJQ
-bUa
-bKk
-aXE
+bIV
+bIV
+bIV
+bIV
 aYZ
 ajx
 aeu
@@ -96024,10 +95866,10 @@ bvV
 bxR
 bzh
 aoL
-bJU
-bUa
-aJv
-aXE
+bIV
+bIV
+bIV
+bIV
 cCT
 ajx
 aeu
@@ -96226,9 +96068,9 @@ bJs
 bAi
 bzi
 bIV
-bji
-bUa
-bMp
+bIV
+bIV
+bIV
 bIV
 bFp
 ajx
@@ -96428,10 +96270,10 @@ bJn
 bAy
 bzn
 bIV
-bLu
-bUa
-cBW
-aYR
+bIV
+bIV
+bIV
+bIV
 aYZ
 ajx
 aeu
@@ -96630,10 +96472,10 @@ bJo
 bAL
 bPW
 apV
-bJZ
-bUa
-cBW
-aYR
+bIV
+bIV
+bIV
+bIV
 bru
 ajx
 aeu
@@ -96832,7 +96674,7 @@ bJp
 bAQ
 bIV
 bIV
-abT
+bIV
 bIV
 bIV
 bIV
@@ -97034,9 +96876,9 @@ bJq
 bBb
 bCn
 bIV
-bUa
-bUa
-bUa
+bIV
+bIV
+bIV
 bIV
 bFq
 ajx
@@ -97236,9 +97078,9 @@ bJr
 bBh
 bzp
 bIV
-bJY
-bKh
-aWS
+bIV
+bIV
+bIV
 bIV
 ayy
 ajx
@@ -112402,9 +112244,9 @@ bRV
 bNz
 bSn
 crl
-pVn
+bON
 bXw
-bWM
+krJ
 bPe
 bZC
 bPe
