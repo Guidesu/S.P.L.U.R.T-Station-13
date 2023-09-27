@@ -58,14 +58,14 @@ There are several things that need to be remembered:
 		dna.species.handle_hair(src)
 
 //used when putting/removing clothes that hide certain mutant body parts to just update those and not update the whole body.
-/mob/living/carbon/human/proc/update_mutant_bodyparts()
+/mob/living/carbon/human/proc/update_mutant_bodyparts(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
-		dna.species.handle_mutant_bodyparts(src)
+		dna.species.handle_mutant_bodyparts(src, null, block_recursive_calls)
 
-/mob/living/carbon/human/update_body(update_genitals = FALSE)
+/mob/living/carbon/human/update_body(update_genitals = FALSE, block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		remove_overlay(BODY_LAYER)
-		dna.species.handle_body(src)
+		dna.species.handle_body(src, block_recursive_calls)
 		..()
 		if(update_genitals)
 			update_genitals()
@@ -75,17 +75,17 @@ There are several things that need to be remembered:
 
 /* --------------------------------------- */
 //For legacy support.
-/mob/living/carbon/human/regenerate_icons()
+/mob/living/carbon/human/regenerate_icons(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		if(!..())
 			icon_render_key = null //invalidate bodyparts cache
-			update_body(TRUE)
+			update_body(TRUE, block_recursive_calls)
 			update_hair()
-			update_inv_w_uniform()
+			update_inv_w_uniform(block_recursive_calls)
 			// Sandstorm edit
-			update_inv_w_underwear()
-			update_inv_w_socks()
-			update_inv_w_shirt()
+			update_inv_w_underwear(block_recursive_calls)
+			update_inv_w_socks(block_recursive_calls)
+			update_inv_w_shirt(block_recursive_calls)
 			update_inv_ears_extra()
 			update_inv_wrists()
 			//
@@ -95,11 +95,11 @@ There are several things that need to be remembered:
 			update_inv_ears()
 			update_inv_shoes()
 			update_inv_s_store()
-			update_inv_wear_mask()
-			update_inv_head()
+			update_inv_wear_mask(block_recursive_calls)
+			update_inv_head(block_recursive_calls)
 			update_inv_belt()
 			update_inv_back()
-			update_inv_wear_suit()
+			update_inv_wear_suit(block_recursive_calls)
 			update_inv_pockets()
 			update_inv_neck()
 			update_transform()
@@ -130,7 +130,7 @@ There are several things that need to be remembered:
 	apply_overlay(ANTAG_LAYER)
 
 
-/mob/living/carbon/human/update_inv_w_uniform()
+/mob/living/carbon/human/update_inv_w_uniform(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		remove_overlay(UNIFORM_LAYER)
 
@@ -155,6 +155,8 @@ There are several things that need to be remembered:
 				target_overlay = "[target_overlay]_d"
 
 			var/alt_worn = U.mob_overlay_icon || 'icons/mob/clothing/uniform.dmi'
+			if(dna.species.icon_uniform)
+				alt_worn = dna.species.icon_uniform
 			var/variant_flag = NONE
 
 			if((DIGITIGRADE in dna.species.species_traits) && U.mutantrace_variation & STYLE_DIGITIGRADE && !(U.mutantrace_variation & STYLE_NO_ANTHRO_ICON))
@@ -187,10 +189,10 @@ There are several things that need to be remembered:
 			//SPLURT EDIT END
 
 		apply_overlay(UNIFORM_LAYER)
-		update_mutant_bodyparts()
+		update_mutant_bodyparts(block_recursive_calls)
 
 // Sandstorm edit
-/mob/living/carbon/human/update_inv_w_underwear()
+/mob/living/carbon/human/update_inv_w_underwear(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		remove_overlay(UNDERWEAR_LAYER)
 
@@ -235,9 +237,9 @@ There are several things that need to be remembered:
 			overlays_standing[UNDERWEAR_LAYER] = underwear_overlay
 
 		apply_overlay(UNDERWEAR_LAYER)
-		update_mutant_bodyparts()
+		update_mutant_bodyparts(block_recursive_calls)
 
-/mob/living/carbon/human/update_inv_w_socks()
+/mob/living/carbon/human/update_inv_w_socks(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		remove_overlay(SOCKS_LAYER)
 
@@ -282,9 +284,9 @@ There are several things that need to be remembered:
 			overlays_standing[SOCKS_LAYER] = underwear_overlay
 
 		apply_overlay(SOCKS_LAYER)
-		update_mutant_bodyparts()
+		update_mutant_bodyparts(block_recursive_calls)
 
-/mob/living/carbon/human/update_inv_w_shirt()
+/mob/living/carbon/human/update_inv_w_shirt(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		remove_overlay(SHIRT_LAYER)
 
@@ -329,7 +331,7 @@ There are several things that need to be remembered:
 			overlays_standing[SHIRT_LAYER] = underwear_overlay
 
 		apply_overlay(SHIRT_LAYER)
-		update_mutant_bodyparts()
+		update_mutant_bodyparts(block_recursive_calls)
 //
 
 /mob/living/carbon/human/update_inv_wear_id()
@@ -382,7 +384,10 @@ There are several things that need to be remembered:
 				if(hud_used.inventory_shown)
 					client.screen += gloves
 			update_observer_view(gloves,1)
-			overlays_standing[GLOVES_LAYER] = gloves.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = 'icons/mob/clothing/hands.dmi')
+			var/icon_chosen = 'icons/mob/clothing/hands.dmi'
+			if(dna.species.icon_hands)
+				icon_chosen = dna.species.icon_hands
+			overlays_standing[GLOVES_LAYER] = gloves.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = icon_chosen)
 			gloves_overlay = overlays_standing[GLOVES_LAYER]
 			if(OFFSET_GLOVES in dna.species.offset_features)
 				gloves_overlay.pixel_x += dna.species.offset_features[OFFSET_GLOVES][1]
@@ -443,7 +448,10 @@ There are several things that need to be remembered:
 					client.screen += glasses				//Either way, add the item to the HUD
 			update_observer_view(glasses,1)
 			if(!(head && (head.flags_inv & HIDEEYES)) && !(wear_mask && (wear_mask.flags_inv & HIDEEYES)))
-				overlays_standing[GLASSES_LAYER] = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = 'icons/mob/clothing/eyes.dmi', override_state = glasses.icon_state)
+				var/icon_chosen = 'icons/mob/clothing/eyes.dmi'
+				if(dna.species.icon_eyes)
+					icon_chosen = dna.species.icon_eyes
+				overlays_standing[GLASSES_LAYER] = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = icon_chosen, override_state = glasses.icon_state)
 			var/mutable_appearance/glasses_overlay = overlays_standing[GLASSES_LAYER]
 			if(glasses_overlay)
 				if(OFFSET_GLASSES in dna.species.offset_features)
@@ -469,8 +477,10 @@ There are several things that need to be remembered:
 				if(hud_used.inventory_shown)			//if the inventory is open
 					client.screen += ears					//add it to the client's screen
 			update_observer_view(ears,1)
-
-			overlays_standing[EAR_LEFT_LAYER] = ears.build_worn_icon(default_layer = EAR_LEFT_LAYER, default_icon_file = 'modular_sand/icons/mob/clothing/ears.dmi', use_mob_overlay_icon = FALSE)
+			var/icon_chosen = 'modular_sand/icons/mob/clothing/ears.dmi'
+			if(dna.species.icon_ears)
+				icon_chosen = dna.species.icon_ears
+			overlays_standing[EAR_LEFT_LAYER] = ears.build_worn_icon(default_layer = EAR_LEFT_LAYER, default_icon_file = icon_chosen, use_mob_overlay_icon = FALSE)
 			var/mutable_appearance/ears_overlay = overlays_standing[EAR_LEFT_LAYER]
 			if(OFFSET_EARS in dna.species.offset_features)
 				ears_overlay.pixel_x += dna.species.offset_features[OFFSET_EARS][1]
@@ -495,8 +505,10 @@ There are several things that need to be remembered:
 				if(hud_used.inventory_shown)			//if the inventory is open
 					client.screen += ears_extra			//add it to the client's screen
 			update_observer_view(ears_extra,1)
-
-			overlays_standing[EAR_RIGHT_LAYER] = ears_extra.build_worn_icon(default_layer = EAR_RIGHT_LAYER, default_icon_file = 'modular_sand/icons/mob/clothing/ears_extra.dmi', use_mob_overlay_icon = FALSE)
+			var/icon_chosen = 'modular_sand/icons/mob/clothing/ears_extra.dmi'
+			if(dna.species.icon_ears)
+				icon_chosen = dna.species.icon_ears
+			overlays_standing[EAR_RIGHT_LAYER] = ears_extra.build_worn_icon(default_layer = EAR_RIGHT_LAYER, default_icon_file = icon_chosen, use_mob_overlay_icon = FALSE)
 			var/mutable_appearance/ears_overlay = overlays_standing[EAR_RIGHT_LAYER]
 			if(OFFSET_EARS in dna.species.offset_features)
 				ears_overlay.pixel_x += dna.species.offset_features[OFFSET_EARS][1]
@@ -529,6 +541,8 @@ There are several things that need to be remembered:
 			update_observer_view(shoes,1)
 
 			var/alt_icon = S.mob_overlay_icon || 'icons/mob/clothing/feet.dmi'
+			if(dna.species.icon_feet)
+				alt_icon = dna.species.icon_feet
 			var/variation_flag = NONE
 			if((DIGITIGRADE in dna.species.species_traits) && S.mutantrace_variation & STYLE_DIGITIGRADE && !(S.mutantrace_variation & STYLE_NO_ANTHRO_ICON))
 				alt_icon = S.anthro_mob_worn_overlay || 'icons/mob/clothing/feet_digi.dmi'
@@ -558,7 +572,12 @@ There are several things that need to be remembered:
 			var/t_state = s_store.item_state
 			if(!t_state)
 				t_state = s_store.icon_state
-			overlays_standing[SUIT_STORE_LAYER]	= mutable_appearance(((s_store.mob_overlay_icon) ? s_store.mob_overlay_icon : 'icons/mob/clothing/belt_mirror.dmi'), t_state, -SUIT_STORE_LAYER)
+
+			var/icon_chosen = 'icons/mob/clothing/belt_mirror.dmi'
+			if(dna.species.icon_belt)
+				icon_chosen = dna.species.icon_belt
+
+			overlays_standing[SUIT_STORE_LAYER]	= mutable_appearance(((s_store.mob_overlay_icon) ? s_store.mob_overlay_icon : icon_chosen), t_state, -SUIT_STORE_LAYER)
 			var/mutable_appearance/s_store_overlay = overlays_standing[SUIT_STORE_LAYER]
 			if(OFFSET_S_STORE in dna.species.offset_features)
 				s_store_overlay.pixel_x += dna.species.offset_features[OFFSET_S_STORE][1]
@@ -566,7 +585,7 @@ There are several things that need to be remembered:
 			overlays_standing[SUIT_STORE_LAYER] = s_store_overlay
 		apply_overlay(SUIT_STORE_LAYER)
 
-/mob/living/carbon/human/update_inv_head()
+/mob/living/carbon/human/update_inv_head(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		remove_overlay(HEAD_LAYER)
 
@@ -586,6 +605,8 @@ There are several things that need to be remembered:
 			remove_overlay(HEAD_LAYER)
 			var/obj/item/clothing/head/H = head
 			var/alt_icon = H.mob_overlay_icon || 'icons/mob/clothing/head.dmi'
+			if(dna.species.icon_head)
+				alt_icon = dna.species.icon_head
 			var/muzzled = FALSE
 			var/variation_flag = NONE
 			if(dna.species.mutant_bodyparts["mam_snouts"] && dna.features["mam_snouts"] != "None")
@@ -604,7 +625,7 @@ There are several things that need to be remembered:
 				head_overlay.pixel_y += dna.species.offset_features[OFFSET_HEAD][2]
 			overlays_standing[HEAD_LAYER] = head_overlay
 		apply_overlay(HEAD_LAYER)
-		update_mutant_bodyparts()
+		update_mutant_bodyparts(block_recursive_calls)
 
 /mob/living/carbon/human/update_inv_belt()
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
@@ -619,8 +640,10 @@ There are several things that need to be remembered:
 			if(client && hud_used && hud_used.hud_shown)
 				client.screen += belt
 			update_observer_view(belt)
-
-			overlays_standing[BELT_LAYER] = belt.build_worn_icon(default_layer = BELT_LAYER, default_icon_file = 'icons/mob/clothing/belt.dmi')
+			var/icon_chosen = 'icons/mob/clothing/belt.dmi'
+			if(dna.species.icon_belt)
+				icon_chosen = dna.species.icon_belt
+			overlays_standing[BELT_LAYER] = belt.build_worn_icon(default_layer = BELT_LAYER, default_icon_file = icon_chosen)
 			var/mutable_appearance/belt_overlay = overlays_standing[BELT_LAYER]
 			if(OFFSET_BELT in dna.species.offset_features)
 				belt_overlay.pixel_x += dna.species.offset_features[OFFSET_BELT][1]
@@ -628,7 +651,7 @@ There are several things that need to be remembered:
 			overlays_standing[BELT_LAYER] = belt_overlay
 		apply_overlay(BELT_LAYER)
 
-/mob/living/carbon/human/update_inv_wear_suit()
+/mob/living/carbon/human/update_inv_wear_suit(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		remove_overlay(SUIT_LAYER)
 
@@ -645,6 +668,8 @@ There are several things that need to be remembered:
 			update_observer_view(wear_suit,1)
 
 			var/worn_icon = wear_suit.mob_overlay_icon || 'icons/mob/clothing/suit.dmi'
+			if(dna.species.icon_suit)
+				worn_icon = dna.species.icon_suit
 			var/worn_state = wear_suit.icon_state
 			var/center = FALSE
 			var/dimension_x = 32
@@ -688,7 +713,7 @@ There are several things that need to be remembered:
 				suit_overlay = center_image(suit_overlay, dimension_x, dimension_y)
 			overlays_standing[SUIT_LAYER] = suit_overlay
 		update_hair()
-		update_mutant_bodyparts()
+		update_mutant_bodyparts(block_recursive_calls)
 
 		apply_overlay(SUIT_LAYER)
 
@@ -715,7 +740,7 @@ There are several things that need to be remembered:
 			update_observer_view(r_store)
 
 
-/mob/living/carbon/human/update_inv_wear_mask()
+/mob/living/carbon/human/update_inv_wear_mask(block_recursive_calls = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
 		remove_overlay(FACEMASK_LAYER)
 
@@ -735,6 +760,8 @@ There are several things that need to be remembered:
 			var/obj/item/clothing/mask/M = wear_mask
 			remove_overlay(FACEMASK_LAYER)
 			var/alt_icon = M.mob_overlay_icon || 'icons/mob/clothing/mask.dmi'
+			if(dna.species.icon_mask)
+				alt_icon = dna.species.icon_mask
 			var/muzzled = FALSE
 			var/variation_flag = NONE
 			if(head && (head.flags_inv & HIDEMASK))
@@ -754,7 +781,7 @@ There are several things that need to be remembered:
 				mask_overlay.pixel_y += dna.species.offset_features[OFFSET_FACEMASK][2]
 			overlays_standing[FACEMASK_LAYER] = mask_overlay
 			apply_overlay(FACEMASK_LAYER)
-		update_mutant_bodyparts() //e.g. upgate needed because mask now hides lizard snout
+		update_mutant_bodyparts(block_recursive_calls) //e.g. upgate needed because mask now hides lizard snout
 
 /mob/living/carbon/human/update_inv_back()
 	if(!HAS_TRAIT(src, TRAIT_HUMAN_NO_RENDER))
@@ -1008,7 +1035,7 @@ use_mob_overlay_icon: if FALSE, it will always use the default_icon_file even if
 		// eyes
 		if(!(NOEYES in dna.species.species_traits))
 			var/has_eyes = getorganslot(ORGAN_SLOT_EYES)
-			if(!has_eyes)
+			if(!has_eyes && !HAS_TRAIT(src, TRAIT_DULLAHAN))
 				add_overlay(mutable_appearance('icons/mob/eyes.dmi', "eyes_missing", -BODY_LAYER))
 			else
 				var/left_state = DEFAULT_LEFT_EYE_STATE
@@ -1020,6 +1047,8 @@ use_mob_overlay_icon: if FALSE, it will always use the default_icon_file even if
 						right_state = eye_type + "_right_eye"
 				var/mutable_appearance/left_eye = mutable_appearance('icons/mob/eyes.dmi', left_state, -BODY_LAYER)
 				var/mutable_appearance/right_eye = mutable_appearance('icons/mob/eyes.dmi', right_state, -BODY_LAYER)
+				left_eye.category = "HEAD"
+				right_eye.category = "HEAD"
 				if((EYECOLOR in dna.species.species_traits) && has_eyes)
 					left_eye.color = "#" + left_eye_color
 					right_eye.color = "#" + right_eye_color

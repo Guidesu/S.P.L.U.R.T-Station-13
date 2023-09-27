@@ -7,7 +7,7 @@
 /datum/sprite_accessory/ears/mam_ears/gret
 	name = "Gret"
 	icon_state = "gret"
-	color_src = SKINTONE
+	color_src = MUTCOLORS
 	icon = 'modular_splurt/icons/mob/mam_ears.dmi'
 
 /datum/sprite_accessory/ears/mam_ears/goathorns
@@ -126,4 +126,10 @@
 	name = "Jackal"
 	icon_state = "jackal"
 	matrixed_sections = MATRIX_RED_BLUE
+	icon = 'modular_splurt/icons/mob/mam_ears.dmi'
+
+/datum/sprite_accessory/ears/mam_ears/renamon
+	name = "Renamon"
+	icon_state = "renamon"
+	matrixed_sections = MATRIX_ALL
 	icon = 'modular_splurt/icons/mob/mam_ears.dmi'

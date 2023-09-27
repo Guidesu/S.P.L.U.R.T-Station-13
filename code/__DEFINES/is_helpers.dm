@@ -67,14 +67,13 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 #define isjellyperson(A) (is_species(A, /datum/species/jelly))
 #define isslimeperson(A) (is_species(A, /datum/species/jelly/slime))
 #define isluminescent(A) (is_species(A, /datum/species/jelly/luminescent))
-#define iszombie(A) (is_species(A, /datum/species/zombie) || is_species(A, /datum/species/mammal/undead) || is_species(A, /datum/species/insect/undead) || is_species(A, /datum/species/lizard/undead))
+#define iszombie(A) (is_species(A, /datum/species/zombie) || HAS_TRAIT(A, TRAIT_UNDEAD)) //SPLURT Edit: Removes previously uncommented edits for zombie subspecies, adds a check for the undead trait in exchange
 #define isskeleton(A) (is_species(A, /datum/species/skeleton))
 #define ismoth(A) (is_species(A, /datum/species/moth))
 #define ishumanbasic(A) (is_species(A, /datum/species/human))
 #define iscatperson(A) (ishumanbasic(A) && istype(A.dna.species, /datum/species/human/felinid))
 #define isethereal(A) (is_species(A, /datum/species/ethereal))
 #define isvampire(A) (is_species(A,/datum/species/vampire))
-#define isdullahan(A) (is_species(A, /datum/species/dullahan))
 
 #define ismush(A) (is_species(A, /datum/species/mush))
 #define isshadow(A) (is_species(A, /datum/species/shadow))

@@ -107,6 +107,36 @@
 	icon_state = "deoxys"
 	covered_limbs = list("Head" = MATRIX_ALL, "Chest" = MATRIX_ALL, "Left Leg" = MATRIX_RED_GREEN, "Right Leg" = MATRIX_RED_GREEN, "Left Arm" = MATRIX_RED_GREEN, "Right Arm" = MATRIX_RED_GREEN)
 
+/datum/sprite_accessory/mam_body_markings/sloog
+	name = "Sloog"
+	icon = 'modular_splurt/icons/mob/mam_markings.dmi'
+	icon_state = "sloog"
+	covered_limbs = list("Chest" = MATRIX_RED_GREEN)
+
+/datum/sprite_accessory/mam_body_markings/pilot
+	name = "Pilot"
+	icon = 'modular_splurt/icons/mob/mam_markings.dmi'
+	icon_state = "pilot"
+	covered_limbs = list("Head" = MATRIX_ALL)
+
+/datum/sprite_accessory/mam_body_markings/pilot_jaw
+	name = "Pilot Jaw"
+	icon = 'modular_splurt/icons/mob/mam_markings.dmi'
+	icon_state = "pilotjaw"
+	covered_limbs = list("Head" = MATRIX_RED_BLUE)
+
+/datum/sprite_accessory/mam_body_markings/renamon
+	name = "Renamon"
+	icon = 'modular_splurt/icons/mob/mam_markings.dmi'
+	icon_state = "renamon"
+	covered_limbs = list("Head" = MATRIX_BLUE,  "Left Leg" = MATRIX_BLUE, "Right Leg" = MATRIX_BLUE)
+
+/datum/sprite_accessory/mam_body_markings/hearttattoo
+	name = "Groin Heart Tattoo"
+	icon = 'modular_splurt/icons/mob/mam_markings.dmi'
+	icon_state = "succubustattoo"
+	covered_limbs = list("Chest" = MATRIX_BLUE)
+
 /******************************************
 ************* Insect Markings *************
 *******************************************/
@@ -135,3 +165,10 @@
 	icon_state = "flat"
 	color_src = MATRIXED
 	matrixed_sections = MATRIX_RED_BLUE
+
+/datum/sprite_accessory/insect_fluff/renamon
+	name = "Renamon"
+	icon = 'modular_splurt/icons/mob/neck_fluff.dmi'
+	icon_state = "renamon"
+	color_src = MATRIXED
+	matrixed_sections = MATRIX_GREEN

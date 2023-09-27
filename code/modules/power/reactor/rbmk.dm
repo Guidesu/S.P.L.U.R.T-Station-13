@@ -342,7 +342,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			playsound(src, pick('sound/machines/fryer/deep_fryer_1.ogg', 'sound/machines/fryer/deep_fryer_2.ogg'), 100, TRUE)
 			var/obj/item/reagent_containers/food/grilled_item = I
 			if(prob(80))
-				return //To give the illusion that it's actually cooking omegalul.
+				continue //To give the illusion that it's actually cooking omegalul.
 			switch(power)
 				if(20 to 39)
 					grilled_item.name = "grilled [initial(grilled_item.name)]"
@@ -552,6 +552,11 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	. = ..()
 	addtimer(CALLBACK(src, .proc/link_to_reactor), 10 SECONDS)
 
+/obj/machinery/computer/reactor/Destroy()
+	reactor = null
+	return ..()
+
+
 /obj/machinery/computer/reactor/wrench_act(mob/living/user, obj/item/I)
 	to_chat(user, "<span class='notice'>You start [anchored ? "un" : ""]securing [name]...</span>")
 	if(I.use_tool(src, user, 40, volume=75))
@@ -727,6 +732,11 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 /obj/machinery/computer/reactor/pump/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
 	radio_connection = SSradio.add_object(src, FREQ_RBMK_CONTROL,filter=RADIO_ATMOSIA)
+
+/obj/machinery/computer/reactor/pump/Destroy()
+	SSradio.remove_object(src, FREQ_RBMK_CONTROL)
+	radio_connection = null
+	return ..()
 
 /obj/machinery/computer/reactor/pump/proc/signal(power, set_output_pressure=null)
 	var/datum/signal/signal

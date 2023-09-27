@@ -226,9 +226,9 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/claymore/highlander/robot/Initialize(mapload)
 	var/obj/item/robot_module/kiltkit = loc
 	robot = kiltkit.loc
+	. = ..()
 	if(!istype(robot))
-		qdel(src)
-	return ..()
+		return INITIALIZE_HINT_QDEL
 
 /obj/item/claymore/highlander/robot/process()
 	loc.layer = LARGE_MOB_LAYER
@@ -582,6 +582,21 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	custom_materials = list(/datum/material/iron=1150, /datum/material/glass=75)
 	attack_verb = list("hit", "bludgeoned", "whacked", "bonked")
 	wound_bonus = -10
+
+/obj/item/wirerod/Initialize(mapload)
+	. = ..()
+
+	var/static/list/hovering_item_typechecks = list(
+		/obj/item/shard = list(
+			SCREENTIP_CONTEXT_LMB = list(INTENT_ANY = "Craft spear"),
+		),
+
+		/obj/item/assembly/igniter = list(
+			SCREENTIP_CONTEXT_LMB = list(INTENT_ANY = "Craft stunprod"),
+		),
+	)
+
+	AddElement(/datum/element/contextual_screentip_item_typechecks, hovering_item_typechecks)
 
 /obj/item/wirerod/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/shard))

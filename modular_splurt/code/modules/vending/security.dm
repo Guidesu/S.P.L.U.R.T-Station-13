@@ -5,7 +5,12 @@
 		/obj/item/clothing/suit/armor/vest/peacekeeper = 5,
 		/obj/item/clothing/suit/armor/vest/metrocop = 2,
 		/obj/item/clothing/head/helmet/metrocop = 2,
-		/obj/item/storage/bag/security = 5
+		/obj/item/storage/bag/security = 5,
+		/obj/item/clothing/head/helmet/blueshirt = 5,
+		/obj/item/clothing/under/rank/security/officer/blueshirt = 5,
+		/obj/item/clothing/suit/armor/vest/blueshirt = 5,
+		/obj/item/armorkit/security = 5,
+		/obj/item/armorkit/security/helmet = 5
 	)
 	var/list/extra_contraband = list(
 		/obj/item/storage/belt/slut = 5,
@@ -20,6 +25,13 @@
 	)
 	LAZYADD(products, extra_products)
 	LAZYADD(contraband, extra_contraband)
+
+	var/list/rem_premium = list(
+		/obj/item/clothing/head/helmet/blueshirt,
+		/obj/item/clothing/under/rank/security/officer/blueshirt,
+		/obj/item/clothing/suit/armor/vest/blueshirt
+	)
+	LAZYREMOVE(premium, rem_premium)
 	. = ..()
 
 /obj/machinery/vending/wardrobe/sec_wardrobe/Initialize()
@@ -74,6 +86,8 @@
 	new /obj/item/clothing/mask/gas/sechailer/swat(src)
 	new /obj/item/grenade/flashbang(src)
 	new /obj/item/choice_beacon/bsbaton(src)
+	new /obj/item/armorkit/blueshield(src)
+	new /obj/item/armorkit/blueshield/helmet(src)
 
 /obj/structure/closet/secure_closet/bridgesec
 	name = "bridge officer's locker"
@@ -198,4 +212,7 @@
 	new /obj/item/pinpointer/nuke(src)
 	new /obj/item/circuitboard/machine/techfab/department/security(src)
 	new /obj/item/storage/photo_album/HoS(src)
+	new /obj/item/mod/construction/armor/safeguard(src)
+	new /obj/item/mod/module/jetpack(src)
+	new /obj/item/mod/module/holster(src)
 	new /obj/item/card/id/departmental_budget/sec(src)

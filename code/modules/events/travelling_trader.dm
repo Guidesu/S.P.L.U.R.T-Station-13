@@ -4,10 +4,12 @@
 	weight = 8
 	max_occurrences = 2
 	earliest_start = 0 MINUTES
+	category = EVENT_CATEGORY_FRIENDLY
+	description = "A mysterious figure requests something to the crew and rewards them with something for getting it done."
 
 /datum/round_event/travelling_trader
-	startWhen = 0
-	endWhen = 900 //you effectively have 15 minutes to complete the traders request, before they disappear
+	start_when = 0
+	end_when = 900 //you effectively have 15 minutes to complete the traders request, before they disappear
 	var/mob/living/carbon/human/dummy/travelling_trader/trader
 	var/atom/spawn_location //where the trader appears
 
@@ -116,7 +118,7 @@
 	smoke.set_up(1, loc)
 	smoke.start()
 	visible_message("<b>[src]</b> disappears in a puff of smoke, leaving something on the ground!")
-	..()
+	return ..()
 
 //travelling trader subtypes (the types that can actually spawn)
 //so far there's: cook / botanist / bartender / animal hunter / artifact dealer / surgeon (6 types!)
@@ -142,7 +144,7 @@
 		requested_item = result
 	else
 		requested_item = /obj/item/reagent_containers/food/snacks/copypasta
-	..()
+	. = ..()
 
 //botanist
 /mob/living/carbon/human/dummy/travelling_trader/gardener
@@ -162,7 +164,7 @@
 	requested_item = pick(subtypesof(/obj/item/reagent_containers/food/snacks/grown) - list(/obj/item/reagent_containers/food/snacks/grown/shell,
 		/obj/item/reagent_containers/food/snacks/grown/shell/gatfruit,
 		/obj/item/reagent_containers/food/snacks/grown/cherry_bomb))
-	..()
+	. = ..()
 
 //animal hunter
 /mob/living/carbon/human/dummy/travelling_trader/animal_hunter
@@ -278,7 +280,7 @@
 
 /mob/living/carbon/human/dummy/travelling_trader/artifact_dealer/Initialize(mapload)
 	possible_rewards += list(pick(subtypesof(/obj/item/clothing/head/collectable)) = 1) //this is slightly lower because it's absolutely useless
-	..()
+	. = ..()
 
 /datum/outfit/artifact_dealer
 	name = "Artifact Dealer"

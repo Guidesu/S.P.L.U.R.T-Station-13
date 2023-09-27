@@ -6,20 +6,28 @@
 	faction = "Station"
 	total_positions = 3 //Handled in /datum/controller/occupations/proc/setup_officer_positions()
 	spawn_positions = 3 //Handled in /datum/controller/occupations/proc/setup_officer_positions()
-	supervisors = "the head of security, warden, and security officers"
+	supervisors = "the head of security, and the head of personel"
 	selection_color = "#c02f2f"
 	minimal_player_age = 3
 	exp_requirements = 100
 	exp_type = EXP_TYPE_CREW
 	considered_combat_role = FALSE
-	alt_titles = list("Slutcurity Trainee", "Security Trainee", "Security Assistant", "Security Cadet", "Security Trainee", "Rookie")
-	custom_spawn_text = "<font color='black' size='2'><b> Your job is to help Security and react to minor crimes. Conflict de-escalation through WORDS is your top priority. Only use your taser as a last resort.</b></font><font color='red' size='4'><b>You are NOT a Security Officer.</b></font>"
+	alt_titles = list(
+		"Slutcurity Trainee",
+		"Security Trainee",
+		"Security Assistant",
+		"Security Cadet",
+		"Rookie",
+		"Hired Muscle",
+		"Bodyguard"
+		)
+	custom_spawn_text = "<font color='black' size='2'><b> Your job is to keep the peace. Conflict de-escalation through diplomacy is your top priority. Only use your baton as a last resort.</b></font><font color='red' size='4'><b>You are NOT a Security Officer.</b></font>"
 
 	outfit = /datum/outfit/job/peacekeeper
 	plasma_outfit = /datum/outfit/plasmaman/peacekeeper
 
-	access = list(ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MAINT_TUNNELS, ACCESS_ENTER_GENPOP, ACCESS_LEAVE_GENPOP)
-	minimal_access = list(ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_ENTER_GENPOP, ACCESS_LEAVE_GENPOP) // See /datum/job/officer/get_access()
+	access = list(ACCESS_BRIG, ACCESS_PEACEKEEPER, ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MAINT_TUNNELS, ACCESS_ENTER_GENPOP, ACCESS_LEAVE_GENPOP)
+	minimal_access = list(ACCESS_BRIG, ACCESS_PEACEKEEPER, ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MAINT_TUNNELS, ACCESS_ENTER_GENPOP, ACCESS_LEAVE_GENPOP) // See /datum/job/officer/get_access()
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CIV
 
@@ -41,10 +49,9 @@
 	head = /obj/item/clothing/head/helmet/blueshirt
 	suit = /obj/item/clothing/suit/armor/vest/peacekeeper
 	shoes = /obj/item/clothing/shoes/jackboots
-	l_pocket = /obj/item/restraints/handcuffs
+	l_pocket = /obj/item/storage/bag/security
 	r_pocket = /obj/item/assembly/flash/handheld
-	suit_store = /obj/item/gun/energy/e_gun/advtaser
-	backpack_contents = list(/obj/item/reagent_containers/spray/pepper, /obj/item/clothing/accessory/badge/deputy, /obj/item/holosign_creator/security)
+	backpack_contents = list(/obj/item/reagent_containers/spray/pepper, /obj/item/clothing/accessory/badge/deputy, /obj/item/holosign_creator/security, /obj/item/choice_beacon/pkbaton)
 
 	backpack = /obj/item/storage/backpack/security/pk
 	satchel = /obj/item/storage/backpack/satchel/sec/pk
@@ -53,16 +60,17 @@
 
 	implants = list(/obj/item/implant/mindshield)
 
-/datum/outfit/plasmaman/peacekeeper // i dare not to touch whatever this is why does it have a fucking telescopic baton
+/datum/outfit/plasmaman/peacekeeper
 	name = "Peacekeeper Plasmaman"
 
+	belt = /obj/item/pda/security
+	ears = /obj/item/radio/headset/headset_sec/alt
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	head = /obj/item/clothing/head/helmet/space/plasmaman/security
 	uniform = /obj/item/clothing/under/plasmaman/security
-	ears = /obj/item/radio/headset/headset_sec/alt
-	r_hand = /obj/item/melee/classic_baton/telescopic
 	r_pocket = /obj/item/storage/bag/security
 	l_pocket = /obj/item/assembly/flash/handheld
-	backpack_contents = list(/obj/item/reagent_containers/spray/pepper, /obj/item/clothing/accessory/badge/deputy)
+	backpack_contents = list(/obj/item/reagent_containers/spray/pepper, /obj/item/clothing/accessory/badge/deputy, /obj/item/holosign_creator/security, /obj/item/choice_beacon/pkbaton)
 
 	box = /obj/item/storage/box/survival/security
 
@@ -114,13 +122,12 @@ Peacekeeper Hypospray
 
 /obj/item/reagent_containers/peacehypo/Initialize(mapload)
 	. = ..()
-
 	for(var/R in reagent_ids)
 		add_reagent(R)
-
 	START_PROCESSING(SSobj, src)
 
 /obj/item/reagent_containers/peacehypo/Destroy()
+	QDEL_LIST(reagent_list)
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
@@ -142,7 +149,7 @@ Peacekeeper Hypospray
 /obj/item/reagent_containers/peacehypo/attack(mob/living/carbon/M, mob/user)
 	var/datum/reagents/R = reagent_list[mode]
 	if(!R.total_volume)
-		to_chat(user, "<span class='notice'>The injector is empty.</span>")
+		to_chat(user, span_notice("The injector is empty."))
 		return
 	if(!istype(M))
 		return
@@ -151,15 +158,15 @@ Peacekeeper Hypospray
 			for(var/datum/reagent/RG in R.reagent_list)
 				if(M.reagents.has_reagent(RG.type) && !RG.overdose_threshold == 0)
 					if(((M.reagents.get_reagent_amount(RG.type)) + amount_per_transfer_from_this > RG.overdose_threshold))
-						to_chat(user, "<span class='warning'>Injecting [M] with more [RG] would overdose them.</span>")
+						to_chat(user, span_warning("Injecting [M] with more [RG] would overdose them."))
 						return
-		to_chat(M, "<span class='warning'>You feel a tiny prick!</span>")
-		to_chat(user, "<span class='notice'>You inject [M] with the injector.</span>")
+		to_chat(M, span_warning("You feel a tiny prick!"))
+		to_chat(user, span_notice("You inject [M] with the injector."))
 		var/fraction = min(amount_per_transfer_from_this/R.total_volume, 1)
 		R.reaction(M, INJECT, fraction)
 		if(M.reagents)
 			var/trans = R.trans_to(M, amount_per_transfer_from_this)
-			to_chat(user, "<span class='notice'>[trans] unit\s injected.  [R.total_volume] unit\s remaining.</span>")
+			to_chat(user, span_notice("[trans] unit\s injected.  [R.total_volume] unit\s remaining."))
 
 	var/list/injected = list()
 	for(var/datum/reagent/RG in R.reagent_list)
@@ -173,7 +180,7 @@ Peacekeeper Hypospray
 	mode = chosen_reagent
 	playsound(loc, 'sound/effects/pop.ogg', 50, 0)
 	var/datum/reagent/R = GLOB.chemical_reagents_list[reagent_ids[mode]]
-	to_chat(user, "<span class='notice'>[src] is now dispensing '[R.name]'.</span>")
+	to_chat(user, span_notice("[src] is now dispensing '[R.name]'."))
 	return
 
 /obj/item/reagent_containers/peacehypo/examine(mob/user)
@@ -186,11 +193,11 @@ Peacekeeper Hypospray
 	for(var/datum/reagents/RS in reagent_list)
 		var/datum/reagent/R = locate() in RS.reagent_list
 		if(R)
-			. += "<span class='notice'>It currently has [R.volume] unit\s of [R.name] stored.</span>"
+			. += span_notice("It currently has [R.volume] unit\s of [R.name] stored.")
 			empty = 0
 
 	if(empty)
-		. += "<span class='warning'>It is currently empty! Allow some time for the internal syntheszier to produce more.</span>"
+		. += span_warning("It is currently empty! Allow some time for the internal syntheszier to produce more.")
 
 /* End Peacekeeper Hypo
 */
@@ -213,3 +220,72 @@ Peacekeeper Hypospray
 	desc = "A large duffel bag for holding extra peacekeeper supplies."
 	icon_state = "duffel-pk"
 	item_state = "duffel-pk"
+
+// Baton Beacon
+
+/obj/item/choice_beacon/pkbaton
+	name = "personal weapon beacon"
+	desc = "Use this to summon your personal baton!"
+
+/obj/item/choice_beacon/pkbaton/generate_display_names()
+	var/static/list/pkbaton_list
+	if(!pkbaton_list)
+		pkbaton_list = list()
+		var/list/templist = subtypesof(/obj/item/storage/secure/briefcase/pkbaton/) //we have to convert type = name to name = type, how lovely!
+		for(var/V in templist)
+			var/atom/A = V
+			pkbaton_list[initial(A.name)] = A
+	return pkbaton_list
+
+/obj/item/storage/secure/briefcase/pkbaton/stunbaton
+	name = "\improper Stun Baton box"
+	desc = "A storage case for a high-tech Stun baton. Pick up that can."
+
+/obj/item/storage/secure/briefcase/pkbaton/stunbaton/PopulateContents()
+	new /obj/item/melee/baton/loaded(src)
+
+/obj/item/storage/secure/briefcase/pkbaton/detbaton
+	name = "\improper Nightstick box"
+	desc = "A storage case for a nightstick. A beat-cop classic."
+
+/obj/item/storage/secure/briefcase/pkbaton/detbaton/PopulateContents()
+	new /obj/item/melee/classic_baton(src)
+
+/obj/item/storage/secure/briefcase/pkbaton/prova
+	name = "\improper Prova box"
+	desc = "A storage case for a Prova. Teach them the way of John Prodman."
+
+/obj/item/storage/secure/briefcase/pkbaton/prova/PopulateContents()
+	new /obj/item/melee/baton/prova(src)
+	new /obj/item/stock_parts/cell/high/plus(src)
+
+/obj/item/storage/secure/briefcase/pkbaton/tbaton
+	name = "\improper Telescopic Baton box"
+	desc = "Storage box containing a single telescopic baton, just like the big boy riot police get!"
+
+/obj/item/storage/secure/briefcase/pkbaton/tbaton/PopulateContents()
+	new /obj/item/melee/classic_baton/telescopic(src)
+
+// Peacekeeper Locker
+
+/obj/structure/closet/secure_closet/peacekeeper
+	name = "peacekeeper's locker"
+	req_access = list(ACCESS_PEACEKEEPER)
+	icon_state = "bs"
+	icon = 'modular_splurt/icons/obj/closet.dmi'
+
+/obj/structure/closet/secure_closet/peacekeeper/PopulateContents()
+	..()
+	new /obj/item/clothing/head/helmet/blueshirt(src)
+	new /obj/item/clothing/suit/armor/vest/peacekeeper(src)
+	new /obj/item/clothing/under/rank/security/officer/peacekeeper(src)
+	new /obj/item/radio/headset/headset_sec(src)
+	new /obj/item/flashlight/seclite(src)
+	new /obj/item/storage/box/zipties(src)
+	new /obj/item/radio/off(src)
+
+// Station things
+
+/area/security/pk
+	name = "Peacekeeper Office"
+	icon_state = "security"

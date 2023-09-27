@@ -1,7 +1,8 @@
 /datum/techweb_node/subdermal_implants/New()
 	var/list/extra_designs = list(
 		"implant_gfluid",
-		"implant_slave"
+		"implant_slave",
+		"implant_hide_backpack"
 	)
 	LAZYADD(design_ids, extra_designs)
 	. = ..()
@@ -35,3 +36,11 @@
 	LAZYREMOVE(design_ids, removed_designs)
 	LAZYADD(design_ids, added_designs)
 	. = ..()
+
+/datum/techweb_node/alien_cyber_organs
+	id = "alien_cyber_organs"
+	display_name = "Alien Cybernetic Organs"
+	description = "Morally dubious experimental parts."
+	prereq_ids = list("cyber_organs", "alien_surgery")
+	design_ids = list("ci-hypnoeyes")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)

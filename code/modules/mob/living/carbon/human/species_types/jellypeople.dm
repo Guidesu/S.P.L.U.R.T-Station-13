@@ -35,6 +35,10 @@
 	ass_image = 'icons/ass/assslime.png'
 	blacklisted_quirks = list(/datum/quirk/glass_bones)
 
+	family_heirlooms = list(
+		/obj/item/toy/plush/slimeplushie
+	)
+
 /datum/species/jelly/on_species_loss(mob/living/carbon/C)
 	C.faction -= "slime"
 	if(ishuman(C))
@@ -195,7 +199,7 @@
 
 	H.mob_transforming = TRUE
 
-	if(do_after(owner, delay=60, needhand=FALSE, target=owner, progress=TRUE))
+	if(do_after(owner, 6 SECONDS, owner))
 		if(H.blood_volume >= BLOOD_VOLUME_SLIME_SPLIT)
 			make_dupe()
 		else
@@ -424,7 +428,7 @@
 	coldmod = 3
 	heatmod = 1
 	burnmod = 1
-
+	balance_point_values = TRUE
 	allowed_limb_ids = list(SPECIES_SLIME,SPECIES_STARGAZER,SPECIES_SLIME_LUMI)
 
 ///////////////////////////////////LUMINESCENTS//////////////////////////////////////////
@@ -442,6 +446,14 @@
 	var/datum/action/innate/use_extract/extract_minor
 	var/datum/action/innate/use_extract/major/extract_major
 	var/extract_cooldown = 0
+
+/datum/species/jelly/luminescent/Destroy(force)
+	current_extract = null
+	QDEL_NULL(glow)
+	QDEL_NULL(extract_major)
+	QDEL_NULL(integrate_extract)
+	QDEL_NULL(extract_minor)
+	return ..()
 
 /datum/species/jelly/luminescent/on_species_loss(mob/living/carbon/C)
 	..()
@@ -617,6 +629,14 @@
 	if(link_minds)
 		link_minds.Remove(C)
 
+//Species datums don't normally implement destroy, but JELLIES SUCK ASS OUT OF A STEEL STRAW ~LemonInTheDark, Tsurupeta
+/datum/species/jelly/stargazer/Destroy()
+	QDEL_NULL(project_thought)
+	QDEL_NULL(link_minds)
+	QDEL_LIST(linked_actions)
+	slimelink_owner = null
+	return ..()
+
 /datum/species/jelly/stargazer/spec_death(gibbed, mob/living/carbon/human/H)
 	..()
 	for(var/M in linked_mobs)
@@ -668,6 +688,10 @@
 /datum/action/innate/linked_speech/New(_species)
 	..()
 	species = _species
+
+/datum/action/innate/linked_speech/Destroy()
+	species = null
+	return ..()
 
 /datum/action/innate/linked_speech/Activate()
 	var/mob/living/carbon/human/H = owner
@@ -745,6 +769,10 @@
 /datum/action/innate/link_minds/New(_species)
 	..()
 	species = _species
+
+/datum/action/innate/linked_speech/Destroy()
+	species = null
+	return ..()
 
 /datum/action/innate/link_minds/Activate()
 	var/mob/living/carbon/human/H = owner

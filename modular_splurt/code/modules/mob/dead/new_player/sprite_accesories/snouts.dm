@@ -221,8 +221,49 @@
 	icon = 'modular_splurt/icons/mob/mam_snouts.dmi'
 	color_src = MUTCOLORS
 
+/datum/sprite_accessory/snouts/mam_snouts/corvidbeak
+	name = "Corvid Beak"
+	icon_state = "corvidbeak"
+	icon = 'modular_splurt/icons/mob/mam_snouts.dmi'
+	matrixed_sections = MATRIX_GREEN
+
 /datum/sprite_accessory/snouts/mam_snouts/deoxys
 	name = "Deoxys"
 	icon_state = "deoxys"
 	icon = 'modular_splurt/icons/mob/mam_snouts.dmi'
 	matrixed_sections = MATRIX_ALL
+
+/datum/sprite_accessory/snouts/mam_snouts/sloog
+	name = "Sloog"
+	icon_state = "sloog"
+	icon = 'modular_splurt/icons/mob/mam_snouts.dmi'
+	matrixed_sections = MATRIX_RED
+
+/datum/sprite_accessory/snouts/mam_snouts/sloog/lips
+	name = "Sloog (lips)"
+	icon_state = "slooglips"
+	matrixed_sections = MATRIX_RED_GREEN
+
+/datum/sprite_accessory/snouts/mam_snouts/tajaran
+	name = "Tajaran"
+	icon = 'modular_splurt/icons/mob/mam_snouts.dmi'
+	icon_state = "tajaran"
+	matrixed_sections = MATRIX_RED_GREEN
+
+/datum/sprite_accessory/snouts/mam_snouts/tajaran_short
+	name = "Tajaran (Short)"
+	icon = 'modular_splurt/icons/mob/mam_snouts.dmi'
+	icon_state = "tajaranshort"
+	matrixed_sections = MATRIX_RED_GREEN
+
+/datum/sprite_accessory/snouts/mam_snouts/noodle
+	name = "Noodle"
+	icon = 'modular_splurt/icons/mob/mam_snouts.dmi'
+	icon_state = "noodle"
+	matrixed_sections = MATRIX_ALL
+
+/datum/sprite_accessory/snouts/mam_snouts/renamon
+	name = "Renamon"
+	icon = 'modular_splurt/icons/mob/mam_snouts.dmi'
+	icon_state = "renamon"
+	matrixed_sections = MATRIX_RED_BLUE

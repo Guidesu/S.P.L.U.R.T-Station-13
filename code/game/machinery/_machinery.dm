@@ -149,10 +149,11 @@ Class Procs:
 		circuit = new circuit(src)
 		circuit.apply_default_parts(src)
 
-	if(!speed_process && init_process)
-		START_PROCESSING(SSmachines, src)
-	else
-		START_PROCESSING(SSfastprocess, src)
+	if(init_process) // Required to prevent non-speed non-init machines from running
+		if(speed_process)
+			START_PROCESSING(SSfastprocess, src)
+		else
+			START_PROCESSING(SSmachines, src)
 	RegisterSignal(src, COMSIG_ENTER_AREA, .proc/power_change)
 
 	if (occupant_typecache)
@@ -174,6 +175,8 @@ Class Procs:
 		for(var/atom/A in component_parts)
 			qdel(A)
 		component_parts.Cut()
+	if(circuit)
+		QDEL_NULL(circuit)
 	return ..()
 
 /obj/machinery/proc/locate_machinery()
@@ -453,6 +456,7 @@ Class Procs:
 			for(var/obj/item/I in component_parts)
 				I.forceMove(loc)
 			LAZYCLEARLIST(component_parts)
+			circuit = null
 	qdel(src)
 
 /obj/machinery/proc/spawn_frame(disassembled)

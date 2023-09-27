@@ -6,6 +6,8 @@
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 
 //Own stuff
+
+/* Already exists
 /obj/item/clothing/under/wedding_dress
 	name = "wedding dress"
 	desc = "A luxurious gown for once-in-a-lifetime occasions."
@@ -15,14 +17,7 @@
 	flags_cover = HIDESHOES
 	mutantrace_variation = NONE
 	can_adjust = FALSE
-
-/obj/item/clothing/under/tuxedo
-	name = "tuxedo"
-	desc = "A formal black tuxedo. It exudes classiness."
-	icon = 'modular_splurt/icons/obj/clothing/uniforms.dmi'
-	icon_state = "tuxedo"
-	mutantrace_variation = NONE //temporary
-	can_adjust = FALSE
+*/
 
 /obj/item/clothing/suit/hooded/wintercoat/security/pink
 	name = "pink security winter coat"
@@ -103,6 +98,24 @@
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	flags_inv = HIDESHOES|HIDEUNDERWEAR
 
+/obj/item/clothing/suit/jacket/runner
+	name = "Runner Jacket"
+	icon = 'modular_splurt/icons/obj/clothing/suits.dmi'
+	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/suit.dmi'
+	item_state = null
+
+/obj/item/clothing/suit/jacket/runner/engi
+	name = "Engineer Runner Jacket"
+	icon_state = "runner_engi"
+
+/obj/item/clothing/suit/jacket/runner/syndicate
+	name = "Syndicate Runner Jacket"
+	icon_state = "runner_syndi"
+
+/obj/item/clothing/suit/jacket/runner/winter
+	name = "Winter Runner Jacket"
+	icon_state = "runner_winter"
+
 /*
  * Posshim's Corpus atire
  */
@@ -115,7 +128,7 @@
 	item_state = "armor"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|FEET|HANDS
 	hoodtype = /obj/item/clothing/head/hooded/corpus
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT //"Hide shoes" but digi shoes dont get hidden, too bad!
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT //"Hide shoes" but digi shoes don't get hidden, too bad!
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	mutantrace_variation = NONE //There is no need for a digi variant, it's a costume
 
@@ -187,7 +200,7 @@
 // GWTB-inspired stuff wooo
 /obj/item/clothing/suit/goner
 	name = "trencher coat"
-	desc = "A generic trenchcoat of the boring wars. This one have purple, corporate insignias."
+	desc = "A generic trench coat of the boring wars. This one have purple, corporate insignias."
 	icon = 'modular_splurt/icons/obj/clothing/suits.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/suit.dmi'
 	anthro_mob_worn_overlay = 'modular_splurt/icons/mob/clothing/suit_digi.dmi'
@@ -208,7 +221,7 @@
 
 /obj/item/clothing/suit/goner/fake/poly
 	name = "polychromic trencher coat"
-	desc = "A generic, drab olive trenchcoat with polychromatic spots."
+	desc = "A generic, drab olive trench coat with polychromic spots."
 	var/list/poly_colors = list("#E6E6E6", "#D6D6D6", "#D6D6D6")
 
 /obj/item/clothing/suit/goner/fake/poly/ComponentInitialize()
@@ -218,26 +231,26 @@
 /obj/item/clothing/suit/goner/fake/poly/classic
 	name = "classic trencher coat"
 	icon_state = "goner_suit_classic"
-	desc = "A generic, grey coat with polychromatic spots."
+	desc = "A generic, grey coat with polychromic spots."
 
 /obj/item/clothing/suit/goner/red
 	name = "red trencher coat"
-	desc = "A trenchcoat of the boring wars. This one have red insignias."
+	desc = "A trench coat of the boring wars. This one have red insignias."
 	icon_state = "goner_suit_r"
 
 /obj/item/clothing/suit/goner/green
 	name = "green trencher coat"
-	desc = "A trenchcoat of the boring wars. This one have green insignias."
+	desc = "A trench coat of the boring wars. This one have green insignias."
 	icon_state = "goner_suit_g"
 
 /obj/item/clothing/suit/goner/blue
 	name = "blue trencher coat"
-	desc = "A trenchcoat of the boring wars. This one have blue insignias."
+	desc = "A trench coat of the boring wars. This one have blue insignias."
 	icon_state = "goner_suit_b"
 
 /obj/item/clothing/suit/goner/yellow
 	name = "yellow trencher coat"
-	desc = "A trenchcoat of the boring wars. This one have yellow insignias."
+	desc = "A trench coat of the boring wars. This one have yellow insignias."
 	icon_state = "goner_suit_y"
 
 /obj/item/clothing/suit/hooded/corpus/jp //It's him! John Prodman!
@@ -249,3 +262,13 @@
 
 /obj/item/clothing/head/hooded/corpus/jp //sec
 	icon_state = "corpus_jp"
+
+/obj/item/clothing/suit/invisijacket
+	name = "invisifiber jacket"
+	desc = "A jacket made of transparent fibers, often used with reinforcement kits."
+	icon = 'modular_splurt/icons/obj/clothing/suits.dmi'
+	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/suit.dmi'
+	// No overlay, because they're invisible!
+	icon_state = "jacket_transparent"
+	// I feel REALLY bad about doing this, but the default overlay is not transparent (null does not work either).
+	item_state = "jacket_transparent"

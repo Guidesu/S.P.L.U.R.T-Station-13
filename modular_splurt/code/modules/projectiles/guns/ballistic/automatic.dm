@@ -35,11 +35,11 @@
 /obj/item/gun/ballistic/automatic/m2a1/examine(mob/user)
 	. = ..()
 	if(cover_open && magazine)
-		. += "<span class='notice'>It seems like you could use an <b>empty hand</b> to remove the magazine.</span>"
+		. += span_notice("It seems like you could use an <b>empty hand</b> to remove the magazine.")
 
 /obj/item/gun/ballistic/automatic/m2a1/attack_self(mob/user)
 	cover_open = !cover_open
-	to_chat(user, "<span class='notice'>You [cover_open ? "open" : "close"] [src]'s cover.</span>")
+	to_chat(user, span_notice("You [cover_open ? "open" : "close"] [src]'s cover."))
 	if(cover_open)
 		playsound(user, 'sound/weapons/sawopen.ogg', 60, 1)
 	else
@@ -52,7 +52,7 @@
 
 /obj/item/gun/ballistic/automatic/m2a1/afterattack(atom/target as mob|obj|turf, mob/living/user as mob|obj, flag, params)
 	if(cover_open)
-		to_chat(user, "<span class='warning'>[src]'s cover is open! Close it before firing!</span>")
+		to_chat(user, span_warning("[src]'s cover is open! Close it before firing!"))
 	else
 		. = ..()
 		update_icon()
@@ -70,12 +70,12 @@
 		user.put_in_hands(magazine)
 		magazine = null
 		update_icon()
-		to_chat(user, "<span class='notice'>You remove the magazine from [src].</span>")
+		to_chat(user, span_notice("You remove the magazine from [src]."))
 		playsound(user, 'sound/weapons/magout.ogg', 60, 1)
 
 /obj/item/gun/ballistic/automatic/m2a1/attackby(obj/item/A, mob/user, params)
 	if(!cover_open && istype(A, mag_type))
-		to_chat(user, "<span class='warning'>[src]'s cover is closed! You can't insert a new mag.</span>")
+		to_chat(user, span_warning("[src]'s cover is closed! You can't insert a new mag."))
 		return
 	..()
 
@@ -108,7 +108,7 @@
 	if(auto_eject && magazine && magazine.stored_ammo && !magazine.stored_ammo.len && !chambered)
 		magazine.dropped()
 		user.visible_message(
-			"<span class='warning'>[magazine] flies out and clatters on the floor!</span>",
+			span_warning("[magazine] flies out and clatters on the floor!"),
 			to_chat("[magazine] flies out and clatters on the floor!")
 		)
 		if(auto_eject_sound)
@@ -140,6 +140,110 @@
 /obj/item/gun/ballistic/automatic/fal/nomag
 	spawnwithmagazine = FALSE
 
+/obj/item/gun/ballistic/automatic/m46a1
+	name = "Pink M46A1"
+	desc = "The good old Paradeus M46A1, now in pretty pink!"
+	icon = 'modular_splurt/icons/obj/guns/vhariik.dmi'
+	icon_state = "m46a1"
+	item_state = "pm4"
+	lefthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_righthand.dmi'
+	fire_sound = 'sound/weapons/rifleshot.ogg'
+	weapon_weight = WEAPON_MEDIUM
+	mag_type = /obj/item/ammo_box/magazine/regm4mag
+	fire_delay = 2
+	burst_size = 3
+	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	automatic_burst_overlay = FALSE
+	spread = 4
+
+/obj/item/gun/ballistic/automatic/m46a1/nomag
+	spawnwithmagazine = FALSE
+
+/obj/item/gun/ballistic/automatic/autoaegis
+	name = "Aegis Assault System"
+	desc = "A standart Paradeus assault rifle, different from it's DMR variant, this one isn't a laser rifle."
+	icon = 'modular_splurt/icons/obj/guns/vhariik4032.dmi'
+	icon_state = "aegisauto"
+	item_state = "aegis"
+	lefthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_righthand.dmi'
+	fire_sound = 'sound/weapons/rifleshot.ogg'
+	weapon_weight = WEAPON_MEDIUM //heavier than the dmr, as it carries bullets instead of energy
+	mag_type = /obj/item/ammo_box/magazine/aegismag
+	fire_delay = 2
+	w_class = WEIGHT_CLASS_NORMAL
+	slot_flags = ITEM_SLOT_BACK
+	automatic_burst_overlay = FALSE
+	spread = 3
+
+/obj/item/gun/ballistic/automatic/autoaegis/nomag
+	spawnwithmagazine = FALSE
+
+/obj/item/gun/ballistic/automatic/caelus
+	name = "AOD Caelus System"
+	desc = "The Area Of Denial Caelus LMG is a LMG developed by Paradeus in early 2400's it still proves effective to this day"
+	icon = 'modular_splurt/icons/obj/guns/vhariik.dmi'
+	icon_state = "caelus"
+	item_state = "cael"
+	lefthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_righthand.dmi'
+	fire_sound = 'sound/weapons/rifleshot.ogg'
+	weapon_weight = WEAPON_HEAVY
+	mag_type = /obj/item/ammo_box/magazine/caelusmag
+	fire_delay = 2
+	burst_size = 7
+	w_class = WEIGHT_CLASS_HUGE
+	slot_flags = ITEM_SLOT_BACK
+	automatic_burst_overlay = FALSE
+	spread = 20 //Pray and Spray
+
+/obj/item/gun/ballistic/automatic/caelus/nomag
+	spawnwithmagazine = FALSE
+
+/obj/item/gun/ballistic/automatic/kaijukill
+	name = "Kaiju SMG"
+	desc = "Kaiju SMG made to kill large creatures and powerful beings such as drakes."
+	icon = 'modular_splurt/icons/obj/guns/vhariik4032.dmi'
+	icon_state = "kaiju"
+	item_state = "kaiju"
+	lefthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_righthand.dmi'
+	fire_sound = 'sound/weapons/rifleshot.ogg'
+	weapon_weight = WEAPON_HEAVY
+	mag_type = /obj/item/ammo_box/magazine/kaijumag
+	fire_delay = 2
+	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	automatic_burst_overlay = FALSE
+	spread = 3
+	pin = /obj/item/firing_pin/kaiju
+
+/obj/item/gun/ballistic/automatic/kaijukill/nomag
+	spawnwithmagazine = FALSE
+
+/obj/item/gun/ballistic/automatic/m9smg
+	name = "M9SMG"
+	desc = "A .45ACP M9SMG, yes, it's .45ACP, don't ask me what the '9' means."
+	icon = 'modular_splurt/icons/obj/guns/vhariik.dmi'
+	icon_state = "m9smg"
+	item_state = "m9sub"
+	lefthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'modular_splurt/icons/mob/inhands/weapons/guns_righthand.dmi'
+	fire_sound = 'sound/weapons/rifleshot.ogg'
+	weapon_weight = WEAPON_LIGHT
+	mag_type = /obj/item/ammo_box/magazine/m9smgmag
+	fire_delay = 1
+	burst_size = 5
+	w_class = WEIGHT_CLASS_SMALL
+	slot_flags = ITEM_SLOT_BACK
+	automatic_burst_overlay = FALSE
+	spread = 3
+
+/obj/item/gun/ballistic/automatic/m9smg/nomag
+	spawnwithmagazine = FALSE
+
 /obj/item/gun/ballistic/automatic/smg22 //SWARM OF FUCKING BEES!
 	name = "Old FTU SMG (.22)"
 	desc = "The left arm of the Free Trade Union "
@@ -158,3 +262,11 @@
 
 /obj/item/gun/ballistic/automatic/smg22/nomag
 	spawnwithmagazine = FALSE
+
+/datum/supply_pack/security/armory/m46a1
+	name = "Pink M46A1 Full-Auto Rifle Crate"
+	desc = "Contains two high-powered, fully automatic rifles rifles chambered in .5x43mm. Requires Armory access to open."
+	cost = 25000
+	contains = list(/obj/item/gun/ballistic/automatic/m46a1,
+					/obj/item/gun/ballistic/automatic/m46a1)
+	crate_name = "m46a1 rifles crate"

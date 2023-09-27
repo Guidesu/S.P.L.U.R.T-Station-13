@@ -433,7 +433,7 @@
 
 /obj/effect/mob_spawn/human/hotel_staff/Destroy()
 	new/obj/structure/fluff/empty_sleeper/syndicate(get_turf(src))
-	..()
+	return ..()
 
 /obj/effect/mob_spawn/human/hotel_staff/special(mob/living/carbon/human/new_spawn)
 	ADD_TRAIT(new_spawn,TRAIT_EXEMPT_HEALTH_EVENTS,GHOSTROLE_TRAIT)
@@ -457,6 +457,8 @@
 
 /obj/effect/mob_spawn/human/demonic_friend/Initialize(mapload, datum/mind/owner_mind, obj/effect/proc_holder/spell/targeted/summon_friend/summoning_spell)
 	. = ..()
+	if(!owner_mind)
+		return
 	owner = owner_mind
 	flavour_text = "You have been given a reprieve from your eternity of torment, to be [owner.name]'s friend for [owner.p_their()] short mortal coil."
 	important_info = "Be aware that if you do not live up to [owner.name]'s expectations, they can send you back to hell with a single thought. [owner.name]'s death will also return you to hell."
@@ -846,7 +848,8 @@
 		var/area/A = get_area(src)
 		var/datum/outfit/O = new /datum/outfit/ghostcafe()
 		O.equip(new_spawn, FALSE, new_spawn.client)
-		SSjob.equip_loadout(null, new_spawn, FALSE)
+		SSjob.equip_loadout(null, new_spawn)
+		SSjob.post_equip_loadout(null, new_spawn)
 		SSquirks.AssignQuirks(new_spawn, new_spawn.client, TRUE, TRUE, null, FALSE, new_spawn)
 		new_spawn.AddElement(/datum/element/ghost_role_eligibility, free_ghosting = TRUE)
 		new_spawn.AddElement(/datum/element/dusts_on_catatonia)

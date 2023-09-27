@@ -3,12 +3,15 @@
 /datum/gear/backpack/condom
 	name = "Condom"
 	path = /obj/item/genital_equipment/condom
-	cost = 1
+
+/datum/gear/backpack/condom_box
+	name = "Box of Condoms"
+	path = /obj/item/storage/box/bulk_condoms
+	cost = 2
 
 /datum/gear/backpack/sounding
 	name = "Sounding rod"
 	path = /obj/item/genital_equipment/sounding
-	cost = 1
 
 //Lipstick
 /datum/gear/backpack/lipstick
@@ -88,7 +91,7 @@
 	name = "Purple Nail Polish"
 	path = /obj/item/nailpolish/purple
 
-/datum/gear/backback/secbadge
+/datum/gear/backpack/secbadge
 	name = "Security Badge"
 	path = /obj/item/clothing/accessory/badge
 	restricted_roles = list("Security Officer", "Warden", "Detective", "Head of Security")
@@ -101,3 +104,22 @@
 /datum/gear/backpack/towel
 	name = "Towel"
 	path = /obj/item/reagent_containers/rag/towel
+
+/datum/gear/backpack/standard_chastity_box
+	name = "Chastity Box"
+	path = /obj/item/storage/box/chastity_cage
+
+/datum/gear/backpack/metal_chastity_box
+	name = "Metal Chastity Box"
+	path = /obj/item/storage/box/chastity_cage/metal
+	cost = 2
+
+/datum/gear/backpack/belt_chastity_box
+	name = "Chastity Belt Box"
+	path = /obj/item/storage/box/chastity_cage/belt
+	cost = 3
+
+/datum/gear/backpack/estim_chastity_box
+	name = "E-Stim Chastity Box"
+	path = /obj/item/storage/box/chastity_cage/estim
+	cost = 4

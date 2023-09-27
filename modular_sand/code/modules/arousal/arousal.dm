@@ -2,6 +2,19 @@
 	. = ..()
 	set_lust(0)
 	SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "orgasm", /datum/mood_event/orgasm)
+	var/message_to_display
+	// We got pleased, let's get rid of some of it
+	var/crocin_amount = reagents.get_reagent_amount(/datum/reagent/drug/aphrodisiac)
+	if(crocin_amount)
+		reagents.remove_reagent(/datum/reagent/drug/aphrodisiac, rand(10, max(30, crocin_amount / 5)))
+		message_to_display = span_userlove("Mnn.. Yes...~")
+	// More potent, harder to get rid of
+	var/hexacrocin_amount = reagents.get_reagent_amount(/datum/reagent/drug/aphrodisiacplus)
+	if(hexacrocin_amount)
+		reagents.remove_reagent(/datum/reagent/drug/aphrodisiacplus, rand(2, max(15, hexacrocin_amount / 6)))
+		message_to_display = span_userlove("YES~!")
+	if(message_to_display)
+		to_chat(src, message_to_display)
 
 /mob/living/proc/pick_receiving_organ(mob/living/carbon/L, flag = CAN_CUM_INTO, title = "Climax", desc = "in what hole?")
 	if (!istype(L))
@@ -32,7 +45,7 @@
 					if(prob(30 + clamp((70*(rand() + (h_self.sexual_potency + h_partner.sexual_potency)/200)), 0, 70)) && !W.impregnated && !Sp.equipment[GENITAL_EQUIPEMENT_CONDOM] && (Sp.linked_organ.fluid_id == /datum/reagent/consumable/semen))
 						W.impregnated = TRUE
 						log_game("Debug: [h_self] has been impregnated by [h_partner]")
-						to_chat(src, "<span class='userlove'>You feel your hormones change, and a motherly instinct take over.</span>")
+						to_chat(src, span_userlove("You feel your hormones change, and a motherly instinct take over."))
 						var/obj/item/organ/genital/breasts/B = h_self.getorganslot(ORGAN_SLOT_BREASTS)
 						if(B)
 							B.fluid_rate *= 2

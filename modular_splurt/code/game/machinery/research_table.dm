@@ -25,22 +25,22 @@
 /obj/machinery/research_table/examine(mob/user)
 	. = ..()
 	if(configured)
-		. += "<span class='notice'>The same person can be used up to [max_repeat_usage * tier] time\s.</span>"
+		. += span_notice("The same person can be used up to [max_repeat_usage * tier] time\s.")
 	switch(point_type)
 		if(POINT_TYPE_SCIENCE)
-			. += "<span class='notice'>The table is set to generate science points.</span>"
+			. += span_notice("The table is set to generate science points.")
 		else
-			. += "<span class='notice'>The table is set to generate money for cargo.</span>"
+			. += span_notice("The table is set to generate money for cargo.")
 	if(!configured && !panel_open)
-		. += "<span class='notice'>It's not configured yet, you could use a <b>multitool</b> to configure it.</span>"
+		. += span_notice("It's not configured yet, you could use a <b>multitool</b> to configure it.")
 	if(panel_open)
-		. += "<span class='notice'>The panel is <b>screwed</b> open and you could change generation type with a <b>multitool</b>.</span>"
+		. += span_notice("The panel is <b>screwed</b> open and you could change generation type with a <b>multitool</b>.")
 
 /obj/machinery/research_table/multitool_act(mob/living/user, obj/item/I)
 	if(user.a_intent == INTENT_HELP)
 		if(panel_open && !slaver_mode) // Do not let slaver version switch to science mode, they should only generate credits.
-			user.visible_message("<span class='notice'>[user] begins changing the generation type on \the [src].</span>", "<span class='notice'>You begin changing the generation type on \the [src].</span>")
-			if(do_after(user, 5 SECONDS, TRUE, src))
+			user.visible_message(span_notice("[user] begins changing the generation type on \the [src]."), span_notice("You begin changing the generation type on \the [src]."))
+			if(do_after(user, 5 SECONDS, src))
 				point_type = point_type == POINT_TYPE_SCIENCE ? POINT_TYPE_CARGO : POINT_TYPE_SCIENCE
 				var/generation_message = null
 				switch(point_type)
@@ -48,17 +48,17 @@
 						generation_message = "generate research points for science"
 					else
 						generation_message = "generate money for cargo"
-				user.visible_message("<span class='notice'>[user] finished changing the generation type on \the [src].</span>", "<span class='notice'>You change the generation type on \the [src] to [generation_message].</span>")
+				user.visible_message(span_notice("[user] finished changing the generation type on \the [src]."), span_notice("You change the generation type on \the [src] to [generation_message]."))
 			else
-				to_chat(user, "<span class='warning'>You need to stand still and uninterrupted for 5 seconds!</span>")
+				to_chat(user, span_warning("You need to stand still and uninterrupted for 5 seconds!"))
 			return STOP_ATTACK_PROC_CHAIN
 		else
-			user.visible_message("<span class='notice'>[user] begins reconfiguring \the [src].</span>", "<span class='notice'>You begin reconfiguring \the [src].</span>")
-			if(do_after(user, 5 SECONDS, TRUE, src))
+			user.visible_message(span_notice("[user] begins reconfiguring \the [src]."), span_notice("You begin reconfiguring \the [src]."))
+			if(do_after(user, 5 SECONDS, src))
 				configured = !configured
-				user.visible_message("<span class='notice'>[user] finished reconfiguring \the [src].</span>", "<span class='notice'>The research table is now [configured ? "configured" : "not configured"].</span>")
+				user.visible_message(span_notice("[user] finished reconfiguring \the [src]."), span_notice("The research table is now [configured ? "configured" : "not configured"]."))
 			else
-				to_chat(user, "<span class='warning'>You need to stand still and uninterrupted for 5 seconds!</span>")
+				to_chat(user, span_warning("You need to stand still and uninterrupted for 5 seconds!"))
 			return STOP_ATTACK_PROC_CHAIN
 	. = ..()
 
@@ -92,24 +92,24 @@
 		return
 	if(!handle_unbuckling(buckled_mob, user))
 		if(buckled_mob == user)
-			to_chat(user, "<span class='warning'>You fail to unbuckle yourself.</span>")
+			to_chat(user, span_warning("You fail to unbuckle yourself."))
 		else
-			to_chat(user, "<span class='warning'>You fail to unbuckle [buckled_mob].</span>")
+			to_chat(user, span_warning("You fail to unbuckle [buckled_mob]."))
 		return
-	UnregisterSignal(buckled_mob, COMSIG_MOB_CAME)
+	UnregisterSignal(buckled_mob, COMSIG_MOB_POST_CAME)
 	say("User left, resetting scanners.")
 	return ..()
 
 /obj/machinery/research_table/proc/handle_unbuckling(mob/living/buckled_mob, user)
 	if(buckled_mob == user)
-		if(do_after(user, self_unbuckle_time, FALSE, src))
+		if(do_after(user, self_unbuckle_time, src))
 			return TRUE
 		else
 			return FALSE
 	return TRUE
 
 /obj/machinery/research_table/buckle_mob(mob/living/buckled_mob, force, check_loc)
-	RegisterSignal(buckled_mob, COMSIG_MOB_CAME, .proc/on_cum)
+	RegisterSignal(buckled_mob, COMSIG_MOB_POST_CAME, .proc/on_cum)
 	say("New user detected, tracking data.")
 	. = ..()
 
@@ -139,7 +139,7 @@
 	for(var/obj/item/organ/genital/genital in buckled_mob.internal_organs)
 		if(istype(genital, /obj/item/organ/genital/breasts))
 			var/obj/item/organ/genital/breasts/breasts = genital
-			points_awarded += breasts.fluid_rate + breasts.breast_values[breasts.size] // Breasts use letters instead of numbers!
+			points_awarded += breasts.fluid_rate + GLOB.breast_values[breasts.size]
 			continue
 		points_awarded += genital.fluid_rate + genital.size
 	points_awarded *= tier

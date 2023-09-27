@@ -11,7 +11,7 @@
 	var/obj/item/card/id/inserted_id
 	var/list/prize_list = list( //if you add something to this, please, for the love of god, sort it by price/type. use tabs and not spaces.
 		new /datum/data/mining_equipment("1 Marker Beacon",				/obj/item/stack/marker_beacon,										10),
-		new /datum/data/mining_equipment("50 Point Transfer Card",		/obj/item/card/mining_point_card,									50),
+		new /datum/data/mining_equipment("50 Point Transfer Card",		/obj/item/card/mining_point_card/fifty,								50),
 		new /datum/data/mining_equipment("10 Marker Beacons",			/obj/item/stack/marker_beacon/ten,									100),
 		new /datum/data/mining_equipment("30 Marker Beacons",			/obj/item/stack/marker_beacon/thirty,								300),
 		new /datum/data/mining_equipment("Whiskey",						/obj/item/reagent_containers/food/drinks/bottle/whiskey,			100),
@@ -27,7 +27,7 @@
 		new /datum/data/mining_equipment("GAR Meson Scanners",			/obj/item/clothing/glasses/meson/gar,								500),
 		new /datum/data/mining_equipment("Explorer's Webbing",			/obj/item/storage/belt/mining,										500),
 		new /datum/data/mining_equipment("Larger Ore Bag",				/obj/item/storage/bag/ore/large,									500),
-		new /datum/data/mining_equipment("Mining Point Transfer Card", 	/obj/item/card/mining_point_card,									500),
+		new /datum/data/mining_equipment("500 Point Transfer Card", 	/obj/item/card/mining_point_card,									500),
 		new /datum/data/mining_equipment("Tracking Implant Kit", 		/obj/item/storage/box/minertracker,									600),
 		new /datum/data/mining_equipment("Jaunter",						/obj/item/wormhole_jaunter,											750),
 		new /datum/data/mining_equipment("Kinetic Crusher",				/obj/item/kinetic_crusher,											750),
@@ -236,7 +236,7 @@
 
 /obj/machinery/mineral/equipment_vendor/proc/RedeemSVoucher(obj/item/suit_voucher/voucher, mob/redeemer)
 	var/items = list(	"Exo-suit" = image(icon = 'icons/obj/clothing/suits.dmi', icon_state = "exo"),
-						"SEVA suit" = image(icon = 'icons/obj/clothing/suits.dmi', icon_state = "seva"))
+						"HEVA suit" = image(icon = 'icons/obj/clothing/suits.dmi', icon_state = "heva"))
 
 	var/selection = show_radial_menu(redeemer, src, items, require_near = TRUE, tooltips = TRUE)
 	if(!selection || !Adjacent(redeemer) || QDELETED(voucher) || voucher.loc != redeemer)
@@ -246,9 +246,9 @@
 		if("Exo-suit")
 			new /obj/item/clothing/suit/hooded/explorer/exo(drop_location)
 			new /obj/item/clothing/mask/gas/exo(drop_location)
-		if("SEVA suit")
-			new /obj/item/clothing/suit/hooded/explorer/seva(drop_location)
-			new /obj/item/clothing/mask/gas/seva(drop_location)
+		if("HEVA suit")
+			new /obj/item/clothing/suit/hooded/explorer/heva(drop_location)
+			new /obj/item/clothing/mask/gas/heva(drop_location)
 	playsound(src, 'sound/machines/machine_vend.ogg', 50, TRUE, extrarange = -3)
 	SSblackbox.record_feedback("tally", "suit_voucher_redeemed", 1, selection)
 	qdel(voucher)
@@ -329,6 +329,9 @@
 	desc = "A small card for transferring mining points. Swipe your ID card over it to start the process."
 	icon_state = "data_1"
 	var/points = 500
+
+/obj/item/card/mining_point_card/fifty
+	points = 50
 
 /obj/item/card/mining_point_card/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/card/id))

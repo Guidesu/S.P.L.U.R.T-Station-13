@@ -62,6 +62,10 @@ Difficulty: Medium
 	internal = new/obj/item/gps/internal/miner(src)
 	miner_saw = new(src)
 
+/mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/Destroy()
+	QDEL_NULL(miner_saw)
+	return ..()
+
 /datum/action/innate/megafauna_attack/dash
 	name = "Dash To Target"
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
@@ -175,9 +179,6 @@ Difficulty: Medium
 	. = ..()
 	if(. && target && !targets_the_same)
 		wander = TRUE
-		if(HAS_TRAIT(target, TRAIT_CURSED_BLOOD))
-			say(pick("Hunter, you must accept your death, be freed from the night.","The night, and the dream, were long...","Beasts all over the shop... You'll be one of them, sooner or later...","The night blocks all sight..."))
-
 
 /mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/proc/dash_attack()
 	INVOKE_ASYNC(src, .proc/dash, target)

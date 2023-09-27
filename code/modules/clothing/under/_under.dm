@@ -26,7 +26,6 @@
 	var/max_accessories = 3
 	var/list/obj/item/clothing/accessory/attached_accessories = list()
 	var/list/mutable_appearance/accessory_overlays = list()
-	var/is_skirt = FALSE
 	//SANDSTORM EDIT END
 
 /obj/item/clothing/under/worn_overlays(isinhands = FALSE, icon_file, used_state, style_flags = NONE)
@@ -112,6 +111,10 @@
 		sensor_mode = pick(SENSOR_OFF, SENSOR_LIVING, SENSOR_LIVING, SENSOR_VITALS, SENSOR_VITALS, SENSOR_VITALS, SENSOR_COORDS, SENSOR_COORDS)
 	sensor_mode_intended = sensor_mode
 	..()
+
+/obj/item/clothing/under/Initialize(mapload)
+	. = ..()
+	register_context()
 
 /obj/item/clothing/under/equipped(mob/user, slot)
 	..()
@@ -377,6 +380,21 @@
 				mutantrace_variation |= USE_TAUR_CLIP_MASK
 
 	return TRUE
+
+/obj/item/clothing/under/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
+	. = ..()
+	if (!(item_flags & IN_INVENTORY))
+		return
+
+	if(!isliving(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+		return
+
+	LAZYSET(context[SCREENTIP_CONTEXT_CTRL_LMB], INTENT_ANY, "Set to highest sensor")
+	if(length(attached_accessories))
+		LAZYSET(context[SCREENTIP_CONTEXT_ALT_LMB], INTENT_ANY, "Remove [attached_accessories[length(attached_accessories)]]")
+	else
+		LAZYSET(context[SCREENTIP_CONTEXT_ALT_LMB], INTENT_ANY, "Adjust [src]")
+	return CONTEXTUAL_SCREENTIP_SET
 
 /obj/item/clothing/under/rank
 	dying_key = DYE_REGISTRY_UNDER

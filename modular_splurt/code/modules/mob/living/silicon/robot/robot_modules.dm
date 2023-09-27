@@ -19,7 +19,8 @@
 			"RoboMaid" = image(icon = 'modular_splurt/icons/mob/robots.dmi', icon_state = "robomaid_sd"),
 			"BootyF" = image(icon = 'modular_splurt/icons/mob/robots.dmi', icon_state = "bootystandard"),
 			"BootyM" = image(icon = 'modular_splurt/icons/mob/robots.dmi', icon_state = "bootystandardM"),
-			"BootyS" = image(icon = 'modular_splurt/icons/mob/robots.dmi', icon_state = "bootystandardS")
+			"BootyS" = image(icon = 'modular_splurt/icons/mob/robots.dmi', icon_state = "bootystandardS"),
+			"Assaultron" = image(icon = 'modular_splurt/icons/mob/robots.dmi', icon_state = "assaultron_standard")
 		)
 		stand_icons = sortList(stand_icons)
 	var/stand_borg_icon = show_radial_menu(R, R , stand_icons, custom_check = CALLBACK(src, .proc/check_menu, R), radius = 42, require_near = TRUE)
@@ -68,6 +69,10 @@
 			hat_offset = 3
 		if("BootyS")
 			cyborg_base_icon = "bootystandardS"
+			cyborg_icon_override = 'modular_splurt/icons/mob/robots.dmi'
+			hat_offset = 3
+		if("Assaultron")
+			cyborg_base_icon = "assaultron_standard"
 			cyborg_icon_override = 'modular_splurt/icons/mob/robots.dmi'
 			hat_offset = 3
 	return ..()
@@ -166,7 +171,9 @@
 		"MissM" = image(icon = 'modular_splurt/icons/mob/robots_cargo.dmi', icon_state = "missm_cargo"),
 		"Zoomba" = image(icon = 'modular_splurt/icons/mob/robots_cargo.dmi', icon_state = "zoomba_cargo"),
 		"Borgi" = image(icon = 'modular_splurt/icons/mob/widerobots_cargo.dmi', icon_state = "borgi-cargo"),
-		"Drake" = image(icon = 'modular_splurt/icons/mob/widerobots_cargo.dmi', icon_state = "drakecargo")
+		"Drake" = image(icon = 'modular_splurt/icons/mob/widerobots_cargo.dmi', icon_state = "drakecargo"),
+		"Assaultron" = image(icon = 'modular_splurt/icons/mob/robots_cargo.dmi', icon_state = "assaultron_cargo"),
+		"Meka" = image(icon = 'modular_splurt/icons/mob/robots_32x64.dmi', icon_state = "mekacargo"), // SPLURT Addon
 		)
 		var/list/L = list("Cargohound" = "cargohound", "Cargohound Dark" = "cargohounddark", "Vale" = "valecargo")
 		for(var/a in L)
@@ -209,6 +216,14 @@
 			cyborg_base_icon = "drakecargo"
 			cyborg_icon_override = 'modular_splurt/icons/mob/widerobots_cargo.dmi'
 			dogborg = TRUE
+		if("Assaultron")
+			cyborg_base_icon = "assaultron_cargo"
+			cyborg_icon_override = 'modular_splurt/icons/mob/robots_cargo.dmi'
+			hat_offset = 3
+		if("Meka")
+			cyborg_base_icon = "mekacargo"
+			cyborg_icon_override = 'modular_splurt/icons/mob/robots_32x64.dmi'
+			hat_offset = 3
 		else
 			return FALSE
 	return ..()
@@ -265,7 +280,13 @@
 	var/list/extra = list(
 		/obj/item/dogborg/jaws/small,
 		/obj/item/analyzer/nose,
-		/obj/item/soap/tongue/scrubpup
+		/obj/item/soap/tongue/scrubpup,
+		/obj/item/gripper/service,
+		/obj/item/kitchen/rollingpin,
+		/obj/item/kitchen/unrollingpin,
+		/obj/item/kitchen/knife/butcher,
+		/obj/item/kitchen/efink,
+		/obj/item/kitchen/knife
 	)
 	LAZYADD(basic_modules, extra)
 	. = ..()
@@ -280,3 +301,5 @@
 	)
 	LAZYADD(basic_modules, extra)
 	. = ..()
+
+

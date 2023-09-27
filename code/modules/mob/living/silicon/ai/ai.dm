@@ -38,8 +38,8 @@
 	var/can_be_carded = TRUE
 	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list(), "Camera"=list(), "Burglar"=list())
 	var/viewalerts = 0
-	var/icon/holo_icon//Female is assigned when AI is created.
-	var/obj/vehicle/sealed/mecha/controlled_mech //For controlled_mech a mech, to determine whether to relaymove or use the AI eye.
+	var/icon/holo_icon //Female is assigned when AI is created.
+	var/obj/controlled_equipment //A piece of equipment, to determine whether to relaymove or use the AI eye.
 	var/radio_enabled = TRUE //Determins if a carded AI can speak with its built in radio or not.
 	radiomod = ";" //AIs will, by default, state their laws on the internal radio.
 	var/obj/item/pda/ai/aiPDA
@@ -98,6 +98,13 @@
 	var/max_multicams = 6
 	var/display_icon_override
 	var/emote_display = "Neutral" //text string of the current emote we set for the status displays, to prevent logins resetting it.
+
+	var/datum/robot_control/robot_control
+	/// Station alert datum for showing alerts UI
+	var/datum/station_alert/alert_control
+	///remember AI's last location
+	var/atom/lastloc
+	interaction_range = INFINITY
 
 /mob/living/silicon/ai/Initialize(mapload, datum/ai_laws/L, mob/target_ai)
 	. = ..()
@@ -173,10 +180,22 @@
 	GLOB.ai_list -= src
 	GLOB.shuttle_caller_list -= src
 	SSshuttle.autoEvac()
-	qdel(eyeobj) // No AI, no Eye
+	QDEL_NULL(eyeobj) // No AI, no Eye
+	QDEL_NULL(spark_system)
+	QDEL_NULL(malf_picker)
+	QDEL_NULL(doomsday_device)
+	// TODO: Why these no work?
+	// QDEL_NULL(robot_control)
+	QDEL_NULL(aiMulti)
+	QDEL_NULL(aiPDA)
+	// QDEL_NULL(alert_control)
 	malfhack = null
-
-	. = ..()
+	current = null
+	Bot = null
+	controlled_equipment = null
+	linked_core = null
+	apc_override = null
+	return ..()
 
 /mob/living/silicon/ai/IgniteMob()
 	fire_stacks = 0
@@ -410,7 +429,7 @@
 
 	if (href_list["ai_take_control"]) //Mech domination
 		var/obj/vehicle/sealed/mecha/M = locate(href_list["ai_take_control"])
-		if(controlled_mech)
+		if(controlled_equipment)
 			to_chat(src, "<span class='warning'>You are already loaded into an onboard computer!</span>")
 			return
 		if(!GLOB.cameranet.checkCameraVis(M))
@@ -493,42 +512,60 @@
 	call_bot_cooldown = 0
 
 
-/mob/living/silicon/ai/triggerAlarm(class, area/A, O, obj/alarmsource)
-	if(alarmsource.z != z)
+/mob/living/silicon/ai/triggerAlarm(class, area/home, cameras, obj/source)
+	if(source.z != z)
 		return
-	var/list/L = alarms[class]
-	for (var/I in L)
-		if (I == A.name)
-			var/list/alarm = L[I]
+	var/list/our_sort = alarms[class]
+	for(var/areaname in our_sort)
+		if (areaname == home.name)
+			var/list/alarm = our_sort[areaname]
 			var/list/sources = alarm[3]
-			if (!(alarmsource in sources))
-				sources += alarmsource
-			return 1
-	var/obj/machinery/camera/C = null
-	var/list/CL = null
-	if (O && istype(O, /list))
-		CL = O
-		if (CL.len == 1)
-			C = CL[1]
-	else if (O && istype(O, /obj/machinery/camera))
-		C = O
-	L[A.name] = list(A, (C) ? C : O, list(alarmsource))
-	if (O)
-		if (C && C.can_use())
-			queueAlarm("--- [class] alarm detected in [A.name]! (<A HREF=?src=[REF(src)];switchcamera=[REF(C)]>[C.c_tag]</A>)", class)
-		else if (CL && CL.len)
+			if (!(source in sources))
+				sources += source
+			return TRUE
+
+	var/obj/machinery/camera/cam = null
+	var/list/our_cams = null
+	if(cameras && islist(cameras))
+		our_cams = cameras
+		if (our_cams.len == 1)
+			cam = our_cams[1]
+	else if(cameras && istype(cameras, /obj/machinery/camera))
+		cam = cameras
+	our_sort[home.name] = list(home, (cam ? cam : cameras), list(source))
+
+	if (cameras)
+		if (cam?.can_use())
+			queueAlarm("--- [class] alarm detected in [home.name]! (<A HREF=?src=[REF(src)];switchcamera=[REF(cam)]>[cam.c_tag]</A>)", class)
+		else if (our_cams?.len)
 			var/foo = 0
 			var/dat2 = ""
-			for (var/obj/machinery/camera/I in CL)
+			for (var/obj/machinery/camera/I in our_cams)
 				dat2 += text("[]<A HREF=?src=[REF(src)];switchcamera=[REF(I)]>[]</A>", (!foo) ? "" : " | ", I.c_tag)	//I'm not fixing this shit...
 				foo = 1
-			queueAlarm(text ("--- [] alarm detected in []! ([])", class, A.name, dat2), class)
+			queueAlarm(text ("--- [] alarm detected in []! ([])", class, home.name, dat2), class)
 		else
-			queueAlarm(text("--- [] alarm detected in []! (No Camera)", class, A.name), class)
+			queueAlarm(text("--- [] alarm detected in []! (No Camera)", class, home.name), class)
 	else
-		queueAlarm(text("--- [] alarm detected in []! (No Camera)", class, A.name), class)
-	if (viewalerts) ai_alerts()
+		queueAlarm(text("--- [] alarm detected in []! (No Camera)", class, home.name), class)
+	if (viewalerts)
+		ai_alerts()
 	return 1
+
+/mob/living/silicon/ai/freeCamera(area/home, obj/machinery/camera/cam)
+	for(var/class in alarms)
+		var/our_area = alarms[class][home.name]
+		if(!our_area)
+			continue
+		var/cams = our_area[2] //Get the cameras
+		if(!cams)
+			continue
+		if(islist(cams))
+			cams -= cam
+			if(length(cams) == 1)
+				our_area[2] = cams[1]
+		else
+			our_area[2] = null
 
 /mob/living/silicon/ai/cancelAlarm(class, area/A, obj/origin)
 	var/list/L = alarms[class]
@@ -1000,9 +1037,9 @@
 	return
 
 /mob/living/silicon/ai/spawned/Initialize(mapload, datum/ai_laws/L, mob/target_ai)
-	. = ..()
 	if(!target_ai)
 		target_ai = src //cheat! just give... ourselves as the spawned AI, because that's technically correct
+	. = ..()
 
 /mob/living/silicon/ai/proc/camera_visibility(mob/camera/aiEye/moved_eye)
 	GLOB.cameranet.visibility(moved_eye, client, all_eyes, USE_STATIC_OPAQUE)
@@ -1019,7 +1056,8 @@
 
 	if(incapacitated())
 		return
-	switch(alert("Would you like to enter cryo? This will ghost you. Remember to AHELP before cryoing out of important roles, even with no admins online.",,"Yes.","No."))
+	//SPLURT CHANGES (No longer tells AI it has to ahelp first)
+	switch(alert("Would you like to enter cryo? This will ghost you.",,"Yes.","No."))
 		if("Yes.")
 			src.ghostize(FALSE, penalize = TRUE)
 			var/announce_rank = "Artificial Intelligence,"

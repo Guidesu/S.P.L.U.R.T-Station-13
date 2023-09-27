@@ -233,11 +233,19 @@
 
 	power_change()
 	set_frequency(frequency)
+	register_context()
+
+/obj/machinery/airalarm/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
+	. = ..()
+	LAZYSET(context[SCREENTIP_CONTEXT_ALT_LMB], INTENT_ANY, locked ? "Unlock" : "Lock")
+	return CONTEXTUAL_SCREENTIP_SET
 
 /obj/machinery/airalarm/Destroy()
 	SSradio.remove_object(src, frequency)
 	qdel(wires)
 	wires = null
+	var/area/ourarea = get_area(src)
+	ourarea.atmosalert(FALSE, src)
 	return ..()
 
 /obj/machinery/airalarm/examine(mob/user)
